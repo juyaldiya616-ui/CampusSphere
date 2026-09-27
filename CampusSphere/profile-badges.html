@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Profile Badges</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Smart & Secure Digital Campus
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            🎮 Profile Completion & Badges
+        </h2>
+
+        <p>
+            Complete your profile and activities
+            to unlock achievement badges.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- PROFILE COMPLETION -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📊
+            </div>
+
+            <h3>
+                Profile Completion
+            </h3>
+
+            <p>
+                Complete your important profile
+                information.
+            </p>
+
+            <h2 id="completionPercentage">
+                0%
+            </h2>
+
+            <p id="completionMessage">
+                Profile completion is being checked...
+            </p>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- BADGES -->
+        <!-- ========================= -->
+
+        <div
+            class="dashboard-card"
+            style="width:100%;">
+
+            <div class="card-icon">
+                🏅
+            </div>
+
+            <h3>
+                My Badges
+            </h3>
+
+            <p>
+                Badges earned through your
+                CampusSphere activities.
+            </p>
+
+            <div id="badgeContainer">
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK BUTTON -->
+    <!-- ========================= -->
+
+    <div style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='dashboard.html'">
+
+            ← Back to Student Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // LOAD PROFILE BADGES
+        // ==========================================
+
+        function loadProfileBadges() {
+
+
+            // --------------------------------------
+            // PROFILE DATA
+            // --------------------------------------
+
+            const profileData =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereProfile"
+                    )
+                ) || {};
+
+
+            let completedFields = 0;
+
+            let totalFields = 5;
+
+
+            if (profileData.name) {
+
+                completedFields++;
+
+            }
+
+
+            if (profileData.email) {
+
+                completedFields++;
+
+            }
+
+
+            if (profileData.phone) {
+
+                completedFields++;
+
+            }
+
+
+            if (profileData.course) {
+
+                completedFields++;
+
+            }
+
+
+            if (profileData.address) {
+
+                completedFields++;
+
+            }
+
+
+            const completionPercentage =
+                Math.round(
+                    (
+                        completedFields /
+                        totalFields
+                    ) * 100
+                );
+
+
+            document.getElementById(
+                "completionPercentage"
+            ).innerText =
+                completionPercentage + "%";
+
+
+
+            // --------------------------------------
+            // COMPLETION MESSAGE
+            // --------------------------------------
+
+            const completionMessage =
+                document.getElementById(
+                    "completionMessage"
+                );
+
+
+            if (completionPercentage === 100) {
+
+                completionMessage.innerText =
+                    "🎉 Your profile is completely filled!";
+
+            }
+
+            else {
+
+                completionMessage.innerText =
+                    "Complete your profile to unlock more badges.";
+
+            }
+
+
+
+            // --------------------------------------
+            // BADGES
+            // --------------------------------------
+
+            const badges = [];
+
+
+
+            // Profile badge
+
+            if (completionPercentage === 100) {
+
+                badges.push({
+
+                    icon: "👤",
+
+                    name: "Profile Master",
+
+                    description:
+                        "Completed your profile information."
+
+                });
+
+            }
+
+
+
+            // Assignment badge
+
+            const assignments =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAssignments"
+                    )
+                ) || [];
+
+
+            if (assignments.length > 0) {
+
+                badges.push({
+
+                    icon: "📚",
+
+                    name: "Assignment Explorer",
+
+                    description:
+                        "Assignments are available on your student account."
+
+                });
+
+            }
+
+
+
+            // Achievement badge
+
+            const achievements =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAchievements"
+                    )
+                ) || [];
+
+
+            if (achievements.length > 0) {
+
+                badges.push({
+
+                    icon: "🏆",
+
+                    name: "Achiever",
+
+                    description:
+                        "Added an achievement to your profile."
+
+                });
+
+            }
+
+
+
+            // Certificate badge
+
+            const certificateRequests =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereCertificateRequests"
+                    )
+                ) || [];
+
+
+            if (certificateRequests.length > 0) {
+
+                badges.push({
+
+                    icon: "📜",
+
+                    name: "Certificate Seeker",
+
+                    description:
+                        "Submitted a certificate request."
+
+                });
+
+            }
+
+
+
+            // Attendance badge
+
+            const attendanceData =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAttendance"
+                    )
+                ) || {};
+
+
+            const attendanceDates =
+                Object.keys(
+                    attendanceData
+                );
+
+
+            if (attendanceDates.length >= 5) {
+
+                badges.push({
+
+                    icon: "📅",
+
+                    name: "Regular Student",
+
+                    description:
+                        "Attendance has been recorded for multiple classes."
+
+                });
+
+            }
+
+
+
+            // --------------------------------------
+            // DISPLAY BADGES
+            // --------------------------------------
+
+            const badgeContainer =
+                document.getElementById(
+                    "badgeContainer"
+                );
+
+
+            if (badges.length === 0) {
+
+                badgeContainer.innerHTML = `
+
+                    <div class="notice">
+
+                        <h3>
+                            🔒 No badges unlocked yet
+                        </h3>
+
+                        <p>
+                            Complete your profile and
+                            participate in CampusSphere
+                            activities to earn badges.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            badgeContainer.innerHTML = "";
+
+
+            badges.forEach(
+                function(badge) {
+
+
+                    const badgeCard =
+                        document.createElement("div");
+
+
+                    badgeCard.className =
+                        "notice";
+
+
+                    badgeCard.style.marginTop =
+                        "15px";
+
+
+                    badgeCard.innerHTML = `
+
+                        <h3>
+                            ${badge.icon}
+                            ${badge.name}
+                        </h3>
+
+                        <p>
+                            ${badge.description}
+                        </p>
+
+                        <strong>
+                            ✅ Badge Unlocked
+                        </strong>
+
+                    `;
+
+
+                    badgeContainer.appendChild(
+                        badgeCard
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadProfileBadges();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Teacher Management</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Admin Teacher Management
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            👨‍🏫 Teacher Management
+        </h2>
+
+        <p>
+            View and manage registered teacher information.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- TEACHER LIST -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+        <div class="dashboard-card"
+             style="width:100%;">
+
+            <h2>
+                📋 Registered Teachers
+            </h2>
+
+            <p id="teacherMessage">
+                Loading teachers...
+            </p>
+
+            <div id="teacherContainer">
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK BUTTON -->
+    <!-- ========================= -->
+
+    <div style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            ← Back to Admin Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // =========================
+        // LOAD TEACHERS
+        // =========================
+
+        function loadTeachers() {
+
+            const container =
+                document.getElementById(
+                    "teacherContainer"
+                );
+
+            const message =
+                document.getElementById(
+                    "teacherMessage"
+                );
+
+
+            const teachers =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereTeachers"
+                    )
+                ) || [];
+
+
+            // No teachers
+
+            if (teachers.length === 0) {
+
+                container.innerHTML = "";
+
+                message.innerText =
+                    "📭 No registered teachers found.";
+
+                return;
+
+            }
+
+
+            message.innerText =
+                "Total Registered Teachers: " +
+                teachers.length;
+
+
+            container.innerHTML = "";
+
+
+            // Display teachers
+
+            teachers.forEach(
+                function(teacher, index) {
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className = "notice";
+
+
+                    card.innerHTML = `
+
+                        <h3>
+                            👨‍🏫
+                            ${teacher.name || "Teacher"}
+                        </h3>
+
+                        <p>
+                            <strong>Email:</strong>
+                            ${teacher.email || "N/A"}
+                        </p>
+
+                        <p>
+                            <strong>Department:</strong>
+                            ${teacher.department || "N/A"}
+                        </p>
+
+                        <p>
+                            <strong>Subject:</strong>
+                            ${teacher.subject || "N/A"}
+                        </p>
+
+                        <button
+                            type="button"
+                            onclick="deleteTeacher(${index})">
+
+                            🗑️ Delete Teacher
+
+                        </button>
+
+                    `;
+
+
+                    container.appendChild(card);
+
+                }
+            );
+
+        }
+
+
+
+        // =========================
+        // DELETE TEACHER
+        // =========================
+
+        function deleteTeacher(index) {
+
+            const teachers =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereTeachers"
+                    )
+                ) || [];
+
+
+            const teacher =
+                teachers[index];
+
+
+            if (!teacher) {
+
+                return;
+
+            }
+
+
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to delete " +
+                    (teacher.name || "this teacher") +
+                    "?"
+                );
+
+
+            if (!confirmDelete) {
+
+                return;
+
+            }
+
+
+            teachers.splice(index, 1);
+
+
+            localStorage.setItem(
+                "campusSphereTeachers",
+                JSON.stringify(teachers)
+            );
+
+
+            alert(
+                "✅ Teacher deleted successfully."
+            );
+
+
+            loadTeachers();
+
+        }
+
+
+
+        // =========================
+        // PAGE LOAD
+        // =========================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadTeachers();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Academic Records</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Admin Academic Records
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            📝 Academic Records
+        </h2>
+
+        <p>
+            Monitor student marks branch-wise and semester-wise.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- FILTER SECTION -->
+    <!-- ========================= -->
+
+    <section class="notice-section">
+
+        <h2>
+            🔎 Filter Academic Records
+        </h2>
+
+
+        <div class="marks-box">
+
+
+            <!-- BRANCH -->
+
+            <label for="branchFilter">
+                Branch
+            </label>
+
+            <select
+                id="branchFilter"
+                onchange="filterMarks()">
+
+                <option value="">
+                    All Branches
+                </option>
+
+                <option value="Computer Science Engineering">
+                    Computer Science Engineering
+                </option>
+
+                <option value="Electronics Engineering">
+                    Electronics Engineering
+                </option>
+
+                <option value="Electrical Engineering">
+                    Electrical Engineering
+                </option>
+
+                <option value="Mechanical Engineering">
+                    Mechanical Engineering
+                </option>
+
+                <option value="Civil Engineering">
+                    Civil Engineering
+                </option>
+
+            </select>
+
+
+
+            <!-- SEMESTER -->
+
+            <label for="semesterFilter">
+                Semester
+            </label>
+
+            <select
+                id="semesterFilter"
+                onchange="filterMarks()">
+
+                <option value="">
+                    All Semesters
+                </option>
+
+                <option value="1st Semester">
+                    1st Semester
+                </option>
+
+                <option value="2nd Semester">
+                    2nd Semester
+                </option>
+
+                <option value="3rd Semester">
+                    3rd Semester
+                </option>
+
+                <option value="4th Semester">
+                    4th Semester
+                </option>
+
+                <option value="5th Semester">
+                    5th Semester
+                </option>
+
+                <option value="6th Semester">
+                    6th Semester
+                </option>
+
+            </select>
+
+
+
+            <!-- SUBJECT -->
+
+            <label for="subjectFilter">
+                Subject
+            </label>
+
+            <select
+                id="subjectFilter"
+                onchange="filterMarks()">
+
+                <option value="">
+                    All Subjects
+                </option>
+
+                <option value="Java">
+                    Java
+                </option>
+
+                <option value="DBMS">
+                    DBMS
+                </option>
+
+                <option value="Software Engineering">
+                    Software Engineering
+                </option>
+
+                <option value="Computer Network">
+                    Computer Network
+                </option>
+
+            </select>
+
+
+
+            <br>
+
+
+            <button
+                type="button"
+                onclick="resetFilters()">
+
+                🔄 Reset Filters
+
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- SUMMARY -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+
+        <!-- TOTAL RECORDS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📚
+            </div>
+
+            <h3>
+                Total Records
+            </h3>
+
+            <h2 id="totalRecords">
+                0
+            </h2>
+
+            <p>
+                Academic records
+            </p>
+
+        </div>
+
+
+
+        <!-- STUDENTS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                👨‍🎓
+            </div>
+
+            <h3>
+                Students
+            </h3>
+
+            <h2 id="totalStudents">
+                0
+            </h2>
+
+            <p>
+                Students in selected records
+            </p>
+
+        </div>
+
+
+
+        <!-- AVERAGE -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📊
+            </div>
+
+            <h3>
+                Average Marks
+            </h3>
+
+            <h2 id="averageMarks">
+                0%
+            </h2>
+
+            <p>
+                Average percentage
+            </p>
+
+        </div>
+
+
+
+        <!-- PASSED -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ✅
+            </div>
+
+            <h3>
+                Records Above 40%
+            </h3>
+
+            <h2 id="passedRecords">
+                0
+            </h2>
+
+            <p>
+                Records with 40% or above
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- MARKS RECORDS -->
+    <!-- ========================= -->
+
+    <section class="notice-section">
+
+        <h2>
+            📋 Student Academic Records
+        </h2>
+
+
+        <p id="marksMessage">
+            Loading academic records...
+        </p>
+
+
+        <div id="marksContainer">
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK -->
+    <!-- ========================= -->
+
+    <div
+        style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            ← Back to Admin Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // LOAD MARKS
+        // ==========================================
+
+        function getMarks() {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    "campusSphereMarks"
+                )
+            ) || [];
+
+        }
+
+
+
+        // ==========================================
+        // FILTER MARKS
+        // ==========================================
+
+        function filterMarks() {
+
+
+            const branch =
+                document.getElementById(
+                    "branchFilter"
+                ).value;
+
+
+            const semester =
+                document.getElementById(
+                    "semesterFilter"
+                ).value;
+
+
+            const subject =
+                document.getElementById(
+                    "subjectFilter"
+                ).value;
+
+
+            const allMarks =
+                getMarks();
+
+
+            const filteredMarks =
+                allMarks.filter(
+                    function(mark) {
+
+
+                        const branchMatch =
+                            branch === "" ||
+                            mark.branch === branch;
+
+
+                        const semesterMatch =
+                            semester === "" ||
+                            mark.semester === semester;
+
+
+                        const subjectMatch =
+                            subject === "" ||
+                            mark.subject === subject;
+
+
+                        return (
+                            branchMatch &&
+                            semesterMatch &&
+                            subjectMatch
+                        );
+
+                    }
+                );
+
+
+            displayMarks(
+                filteredMarks
+            );
+
+        }
+
+
+
+        // ==========================================
+        // DISPLAY MARKS
+        // ==========================================
+
+        function displayMarks(marks) {
+
+
+            const container =
+                document.getElementById(
+                    "marksContainer"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "marksMessage"
+                );
+
+
+            container.innerHTML = "";
+
+
+
+            // NO RECORDS
+
+            if (marks.length === 0) {
+
+                message.innerText =
+                    "📭 No academic records found for the selected filters.";
+
+                updateSummary([]);
+
+                return;
+
+            }
+
+
+
+            message.innerText =
+                "Showing " +
+                marks.length +
+                " academic record(s).";
+
+
+
+            // DISPLAY EACH RECORD
+
+            marks.forEach(
+                function(mark) {
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "notice";
+
+
+                    card.innerHTML = `
+
+                        <h3>
+                            👨‍🎓 ${mark.studentName}
+                        </h3>
+
+                        <p>
+                            <strong>Roll No:</strong>
+                            ${mark.rollNo}
+                        </p>
+
+                        <p>
+                            <strong>Branch:</strong>
+                            ${mark.branch || "Not Available"}
+                        </p>
+
+                        <p>
+                            <strong>Semester:</strong>
+                            ${mark.semester || "Not Available"}
+                        </p>
+
+                        <p>
+                            <strong>Subject:</strong>
+                            ${mark.subject}
+                        </p>
+
+                        <p>
+                            <strong>Internal:</strong>
+                            ${mark.internal} / 20
+                        </p>
+
+                        <p>
+                            <strong>External:</strong>
+                            ${mark.external} / 80
+                        </p>
+
+                        <p>
+                            <strong>Total:</strong>
+                            ${mark.total} / 100
+                        </p>
+
+                        <p>
+                            <strong>Percentage:</strong>
+                            ${Number(
+                                mark.percentage
+                            ).toFixed(1)}%
+                        </p>
+
+                    `;
+
+
+                    container.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+
+
+            updateSummary(
+                marks
+            );
+
+        }
+
+
+
+        // ==========================================
+        // UPDATE SUMMARY
+        // ==========================================
+
+        function updateSummary(marks) {
+
+
+            document.getElementById(
+                "totalRecords"
+            ).innerText =
+                marks.length;
+
+
+
+            // UNIQUE STUDENTS
+
+            const students =
+                new Set();
+
+
+            marks.forEach(
+                function(mark) {
+
+                    students.add(
+                        mark.rollNo
+                    );
+
+                }
+            );
+
+
+            document.getElementById(
+                "totalStudents"
+            ).innerText =
+                students.size;
+
+
+
+            // AVERAGE
+
+            let totalPercentage = 0;
+
+
+            marks.forEach(
+                function(mark) {
+
+                    totalPercentage +=
+                        Number(
+                            mark.percentage
+                        ) || 0;
+
+                }
+            );
+
+
+            let average = 0;
+
+
+            if (marks.length > 0) {
+
+                average =
+                    totalPercentage /
+                    marks.length;
+
+            }
+
+
+            document.getElementById(
+                "averageMarks"
+            ).innerText =
+                average.toFixed(1) + "%";
+
+
+
+            // ABOVE 40%
+
+            const passed =
+                marks.filter(
+                    function(mark) {
+
+                        return Number(
+                            mark.percentage
+                        ) >= 40;
+
+                    }
+                );
+
+
+            document.getElementById(
+                "passedRecords"
+            ).innerText =
+                passed.length;
+
+        }
+
+
+
+        // ==========================================
+        // RESET FILTERS
+        // ==========================================
+
+        function resetFilters() {
+
+
+            document.getElementById(
+                "branchFilter"
+            ).value = "";
+
+
+            document.getElementById(
+                "semesterFilter"
+            ).value = "";
+
+
+            document.getElementById(
+                "subjectFilter"
+            ).value = "";
+
+
+            filterMarks();
+
+        }
+
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                filterMarks();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

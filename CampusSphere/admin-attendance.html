@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Attendance Overview</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Admin Attendance Overview
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            📅 Attendance Overview
+        </h2>
+
+        <p>
+            Monitor attendance across branches and semesters.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- FILTER SECTION -->
+    <!-- ========================= -->
+
+    <section class="notice-section">
+
+        <h2>
+            🔎 Filter Attendance
+        </h2>
+
+
+        <div class="attendance-box">
+
+
+            <!-- DATE -->
+
+            <label for="filterDate">
+                <strong>Date:</strong>
+            </label>
+
+            <input
+                type="date"
+                id="filterDate">
+
+
+
+            <br><br>
+
+
+
+            <!-- BRANCH -->
+
+            <label for="filterBranch">
+                <strong>Branch:</strong>
+            </label>
+
+            <select id="filterBranch">
+
+                <option value="">
+                    All Branches
+                </option>
+
+                <option value="Computer Science">
+                    Computer Science
+                </option>
+
+                <option value="Information Technology">
+                    Information Technology
+                </option>
+
+                <option value="Electronics">
+                    Electronics
+                </option>
+
+                <option value="Electrical">
+                    Electrical
+                </option>
+
+                <option value="Mechanical">
+                    Mechanical
+                </option>
+
+                <option value="Civil">
+                    Civil
+                </option>
+
+            </select>
+
+
+
+            <br><br>
+
+
+
+            <!-- SEMESTER -->
+
+            <label for="filterSemester">
+                <strong>Semester:</strong>
+            </label>
+
+            <select id="filterSemester">
+
+                <option value="">
+                    All Semesters
+                </option>
+
+                <option value="1st Semester">
+                    1st Semester
+                </option>
+
+                <option value="2nd Semester">
+                    2nd Semester
+                </option>
+
+                <option value="3rd Semester">
+                    3rd Semester
+                </option>
+
+                <option value="4th Semester">
+                    4th Semester
+                </option>
+
+                <option value="5th Semester">
+                    5th Semester
+                </option>
+
+                <option value="6th Semester">
+                    6th Semester
+                </option>
+
+            </select>
+
+
+
+            <br><br>
+
+
+
+            <!-- BUTTONS -->
+
+            <button
+                type="button"
+                onclick="loadAttendance()">
+
+                🔎 View Attendance
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="clearFilters()">
+
+                🔄 Clear Filters
+
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- SUMMARY -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+
+        <!-- TOTAL STUDENTS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                👨‍🎓
+            </div>
+
+            <h3>
+                Total Students
+            </h3>
+
+            <h2 id="totalStudents">
+                0
+            </h2>
+
+            <p>
+                Students in selected class
+            </p>
+
+        </div>
+
+
+
+        <!-- PRESENT -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ✅
+            </div>
+
+            <h3>
+                Present
+            </h3>
+
+            <h2 id="presentStudents">
+                0
+            </h2>
+
+            <p>
+                Students present
+            </p>
+
+        </div>
+
+
+
+        <!-- ABSENT -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ❌
+            </div>
+
+            <h3>
+                Absent
+            </h3>
+
+            <h2 id="absentStudents">
+                0
+            </h2>
+
+            <p>
+                Students absent
+            </p>
+
+        </div>
+
+
+
+        <!-- ATTENDANCE -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📊
+            </div>
+
+            <h3>
+                Attendance
+            </h3>
+
+            <h2 id="attendancePercentage">
+                0%
+            </h2>
+
+            <p>
+                Attendance percentage
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- ATTENDANCE RECORDS -->
+    <!-- ========================= -->
+
+    <section class="notice-section">
+
+        <h2>
+            📋 Attendance Records
+        </h2>
+
+
+        <p id="attendanceMessage">
+            Select filters and click
+            "View Attendance".
+        </p>
+
+
+        <div id="attendanceContainer">
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK BUTTON -->
+    <!-- ========================= -->
+
+    <div style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            ← Back to Admin Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // LOAD ATTENDANCE
+        // ==========================================
+
+        function loadAttendance() {
+
+
+            const container =
+                document.getElementById(
+                    "attendanceContainer"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "attendanceMessage"
+                );
+
+
+            const selectedDate =
+                document.getElementById(
+                    "filterDate"
+                ).value;
+
+
+            const selectedBranch =
+                document.getElementById(
+                    "filterBranch"
+                ).value;
+
+
+            const selectedSemester =
+                document.getElementById(
+                    "filterSemester"
+                ).value;
+
+
+
+            // ======================================
+            // GET ATTENDANCE DATA
+            // ======================================
+
+            const attendanceData =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAttendance"
+                    )
+                ) || {};
+
+
+
+            container.innerHTML = "";
+
+
+
+            let totalStudents = 0;
+
+            let presentStudents = 0;
+
+            let absentStudents = 0;
+
+            let sessionsFound = 0;
+
+
+
+            const dates =
+                Object.keys(
+                    attendanceData
+                );
+
+
+
+            // ======================================
+            // NO DATA
+            // ======================================
+
+            if (dates.length === 0) {
+
+                message.innerText =
+                    "📭 No attendance records available.";
+
+                updateSummary(
+                    0,
+                    0,
+                    0
+                );
+
+                return;
+
+            }
+
+
+
+            // ======================================
+            // LOOP THROUGH DATES
+            // ======================================
+
+            dates.forEach(function(date) {
+
+
+                // Date filter
+
+                if (
+                    selectedDate &&
+                    date !== selectedDate
+                ) {
+
+                    return;
+
+                }
+
+
+
+                const dayData =
+                    attendanceData[date];
+
+
+                if (!dayData) {
+
+                    return;
+
+                }
+
+
+
+                // ==================================
+                // LOOP THROUGH BRANCH + SEMESTER
+                // ==================================
+
+                Object.keys(dayData).forEach(
+                    function(classKey) {
+
+
+                        const classData =
+                            dayData[classKey];
+
+
+                        if (!classData) {
+
+                            return;
+
+                        }
+
+
+
+                        // --------------------------------
+                        // BRANCH FILTER
+                        // --------------------------------
+
+                        if (
+                            selectedBranch &&
+                            classData.branch !==
+                            selectedBranch
+                        ) {
+
+                            return;
+
+                        }
+
+
+
+                        // --------------------------------
+                        // SEMESTER FILTER
+                        // --------------------------------
+
+                        if (
+                            selectedSemester &&
+                            classData.semester !==
+                            selectedSemester
+                        ) {
+
+                            return;
+
+                        }
+
+
+
+                        // --------------------------------
+                        // STUDENTS
+                        // --------------------------------
+
+                        const students =
+                            classData.students || {};
+
+
+                        const studentRolls =
+                            Object.keys(
+                                students
+                            );
+
+
+                        if (
+                            studentRolls.length === 0
+                        ) {
+
+                            return;
+
+                        }
+
+
+
+                        sessionsFound++;
+
+
+
+                        let presentCount = 0;
+
+                        let absentCount = 0;
+
+
+
+                        // --------------------------------
+                        // STUDENT LOOP
+                        // --------------------------------
+
+                        studentRolls.forEach(
+                            function(rollNo) {
+
+
+                                const student =
+                                    students[rollNo];
+
+
+                                if (!student) {
+
+                                    return;
+
+                                }
+
+
+
+                                totalStudents++;
+
+
+
+                                if (
+                                    student.status ===
+                                    "Present"
+                                ) {
+
+                                    presentCount++;
+
+                                    presentStudents++;
+
+                                }
+
+
+                                else if (
+                                    student.status ===
+                                    "Absent"
+                                ) {
+
+                                    absentCount++;
+
+                                    absentStudents++;
+
+                                }
+
+                            }
+                        );
+
+
+
+                        // ==================================
+                        // CLASS ATTENDANCE CARD
+                        // ==================================
+
+                        const card =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        card.className =
+                            "notice";
+
+
+
+                        let studentHTML = "";
+
+
+
+                        studentRolls.forEach(
+                            function(rollNo) {
+
+
+                                const student =
+                                    students[rollNo];
+
+
+                                if (!student) {
+
+                                    return;
+
+                                }
+
+
+
+                                const statusIcon =
+                                    student.status ===
+                                    "Present"
+                                    ? "✅"
+                                    : "❌";
+
+
+
+                                studentHTML += `
+
+                                    <div class="student-row">
+
+                                        <div>
+
+                                            <strong>
+                                                ${student.name}
+                                            </strong>
+
+                                            <small>
+                                                Roll No: ${rollNo}
+                                            </small>
+
+                                        </div>
+
+                                        <div>
+
+                                            ${statusIcon}
+
+                                            ${student.status}
+
+                                        </div>
+
+                                    </div>
+
+                                `;
+
+                            }
+                        );
+
+
+
+                        card.innerHTML = `
+
+                            <h3>
+                                📅 ${date}
+                            </h3>
+
+                            <p>
+                                <strong>
+                                    Branch:
+                                </strong>
+
+                                ${classData.branch}
+                            </p>
+
+                            <p>
+                                <strong>
+                                    Semester:
+                                </strong>
+
+                                ${classData.semester}
+                            </p>
+
+                            <p>
+                                <strong>
+                                    Total Students:
+                                </strong>
+
+                                ${studentRolls.length}
+                            </p>
+
+                            <p>
+                                <strong>
+                                    Present:
+                                </strong>
+
+                                ${presentCount}
+                            </p>
+
+                            <p>
+                                <strong>
+                                    Absent:
+                                </strong>
+
+                                ${absentCount}
+                            </p>
+
+                            <hr>
+
+                            <h4>
+                                👨‍🎓 Student Details
+                            </h4>
+
+                            ${studentHTML}
+
+                        `;
+
+
+
+                        container.appendChild(
+                            card
+                        );
+
+
+                    }
+                );
+
+
+            });
+
+
+
+            // ======================================
+            // NO MATCHING RECORD
+            // ======================================
+
+            if (sessionsFound === 0) {
+
+                message.innerText =
+                    "📭 No attendance found for the selected filters.";
+
+                updateSummary(
+                    0,
+                    0,
+                    0
+                );
+
+                return;
+
+            }
+
+
+
+            // ======================================
+            // UPDATE MESSAGE
+            // ======================================
+
+            message.innerText =
+                "Showing " +
+                sessionsFound +
+                " attendance session(s).";
+
+
+
+            // ======================================
+            // UPDATE SUMMARY
+            // ======================================
+
+            updateSummary(
+                totalStudents,
+                presentStudents,
+                absentStudents
+            );
+
+        }
+
+
+
+        // ==========================================
+        // UPDATE SUMMARY
+        // ==========================================
+
+        function updateSummary(
+            totalStudents,
+            presentStudents,
+            absentStudents
+        ) {
+
+
+            document.getElementById(
+                "totalStudents"
+            ).innerText =
+                totalStudents;
+
+
+            document.getElementById(
+                "presentStudents"
+            ).innerText =
+                presentStudents;
+
+
+            document.getElementById(
+                "absentStudents"
+            ).innerText =
+                absentStudents;
+
+
+
+            let percentage = 0;
+
+
+
+            const totalRecords =
+                presentStudents +
+                absentStudents;
+
+
+
+            if (totalRecords > 0) {
+
+                percentage =
+                    Math.round(
+                        (
+                            presentStudents /
+                            totalRecords
+                        ) * 100
+                    );
+
+            }
+
+
+
+            document.getElementById(
+                "attendancePercentage"
+            ).innerText =
+                percentage + "%";
+
+        }
+
+
+
+        // ==========================================
+        // CLEAR FILTERS
+        // ==========================================
+
+        function clearFilters() {
+
+
+            document.getElementById(
+                "filterDate"
+            ).value = "";
+
+
+            document.getElementById(
+                "filterBranch"
+            ).value = "";
+
+
+            document.getElementById(
+                "filterSemester"
+            ).value = "";
+
+
+            document.getElementById(
+                "attendanceContainer"
+            ).innerHTML = "";
+
+
+            document.getElementById(
+                "attendanceMessage"
+            ).innerText =
+                "Select filters and click " +
+                "\"View Attendance\".";
+
+
+            updateSummary(
+                0,
+                0,
+                0
+            );
+
+        }
+
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadAttendance();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

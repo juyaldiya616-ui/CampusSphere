@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Attendance Management</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Teacher Management Portal
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            📅 Attendance Management
+        </h2>
+
+        <p>
+            Mark and manage attendance of students
+            from your branch.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- ATTENDANCE -->
+    <!-- ========================= -->
+
+    <main class="attendance-container">
+
+        <div class="attendance-box">
+
+            <h2>
+                Class Attendance
+            </h2>
+
+
+
+            <!-- ========================= -->
+            <!-- TEACHER BRANCH -->
+            <!-- ========================= -->
+
+            <div class="class-info">
+
+                <p>
+                    <strong>
+                        Teacher Branch:
+                    </strong>
+                </p>
+
+                <p id="teacherBranchDisplay">
+                    Loading branch...
+                </p>
+
+
+
+                <!-- ========================= -->
+                <!-- SEMESTER -->
+                <!-- ========================= -->
+
+                <p>
+                    <strong>
+                        Select Semester:
+                    </strong>
+                </p>
+
+                <select id="semester"
+                        onchange="loadStudents()">
+
+                    <option value="">
+                        Select Semester
+                    </option>
+
+                    <option value="1st">
+                        1st Semester
+                    </option>
+
+                    <option value="2nd">
+                        2nd Semester
+                    </option>
+
+                    <option value="3rd">
+                        3rd Semester
+                    </option>
+
+                    <option value="4th">
+                        4th Semester
+                    </option>
+
+                    <option value="5th">
+                        5th Semester
+                    </option>
+
+                    <option value="6th">
+                        6th Semester
+                    </option>
+
+                </select>
+
+
+
+                <!-- ========================= -->
+                <!-- DATE -->
+                <!-- ========================= -->
+
+                <p>
+                    <strong>
+                        Date:
+                    </strong>
+                </p>
+
+                <input
+                    type="date"
+                    id="attendanceDate">
+
+            </div>
+
+
+
+            <br>
+
+
+
+            <!-- ========================= -->
+            <!-- STUDENT COUNT -->
+            <!-- ========================= -->
+
+            <div>
+
+                <h3>
+                    👨‍🎓 Students
+                </h3>
+
+                <p id="studentCount">
+                    Select semester to view students.
+                </p>
+
+            </div>
+
+
+
+            <!-- ========================= -->
+            <!-- STUDENT LIST -->
+            <!-- ========================= -->
+
+            <div id="studentList">
+
+                <p>
+                    Please select a semester.
+                </p>
+
+            </div>
+
+
+
+            <br>
+
+
+
+            <!-- ========================= -->
+            <!-- SAVE ATTENDANCE -->
+            <!-- ========================= -->
+
+            <button
+                type="button"
+                class="save-btn"
+                onclick="saveAttendance()">
+
+                💾 Save Attendance
+
+            </button>
+
+
+
+            <br>
+            <br>
+
+
+
+            <!-- ========================= -->
+            <!-- BACK -->
+            <!-- ========================= -->
+
+            <button
+                type="button"
+                onclick="window.location.href='teacher-dashboard.html'">
+
+                ← Back to Teacher Dashboard
+
+            </button>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // GLOBAL VARIABLES
+        // ==========================================
+
+        let loggedInTeacher = null;
+
+        let teacherBranch = "";
+
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadTeacherInformation();
+
+                setTodayDate();
+
+            }
+        );
+
+
+
+        // ==========================================
+        // LOAD TEACHER INFORMATION
+        // ==========================================
+
+        function loadTeacherInformation() {
+
+
+            // Get logged-in teacher email
+
+            const teacherEmail =
+                localStorage.getItem(
+                    "campusSphereLoggedInTeacher"
+                );
+
+
+            const branchElement =
+                document.getElementById(
+                    "teacherBranchDisplay"
+                );
+
+
+            // --------------------------------------
+            // CHECK LOGIN
+            // --------------------------------------
+
+            if (!teacherEmail) {
+
+                branchElement.innerHTML = `
+                    <span style="color:red;">
+                        Teacher login information not found.
+                    </span>
+                `;
+
+                document.getElementById(
+                    "studentList"
+                ).innerHTML = `
+                    <p style="color:red;">
+                        Please login again as Teacher.
+                    </p>
+                `;
+
+                return;
+
+            }
+
+
+
+            // --------------------------------------
+            // GET REGISTERED TEACHERS
+            // --------------------------------------
+
+            const teachers =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereTeachers"
+                    )
+                ) || [];
+
+
+
+            // --------------------------------------
+            // FIND LOGGED-IN TEACHER
+            // --------------------------------------
+
+            loggedInTeacher =
+                teachers.find(
+                    function (teacher) {
+
+                        return (
+                            teacher.email.toLowerCase() ===
+                            teacherEmail.toLowerCase()
+                        );
+
+                    }
+                );
+
+
+
+            // --------------------------------------
+            // TEACHER NOT FOUND
+            // --------------------------------------
+
+            if (!loggedInTeacher) {
+
+                branchElement.innerHTML = `
+                    <span style="color:red;">
+                        Teacher account not found.
+                    </span>
+                `;
+
+                document.getElementById(
+                    "studentList"
+                ).innerHTML = `
+                    <p style="color:red;">
+                        Please logout and login again.
+                    </p>
+                `;
+
+                return;
+
+            }
+
+
+
+            // --------------------------------------
+            // GET BRANCH
+            // --------------------------------------
+
+            teacherBranch =
+                loggedInTeacher.branch;
+
+
+
+            // --------------------------------------
+            // SHOW BRANCH
+            // --------------------------------------
+
+            branchElement.innerHTML = `
+                <strong>
+                    ${teacherBranch}
+                </strong>
+            `;
+
+
+
+            // --------------------------------------
+            // LOAD STUDENTS
+            // --------------------------------------
+
+            loadStudents();
+
+        }
+
+
+
+        // ==========================================
+        // SET TODAY'S DATE
+        // ==========================================
+
+        function setTodayDate() {
+
+            const dateInput =
+                document.getElementById(
+                    "attendanceDate"
+                );
+
+
+            const today =
+                new Date();
+
+
+            const year =
+                today.getFullYear();
+
+
+            const month =
+                String(
+                    today.getMonth() + 1
+                ).padStart(2, "0");
+
+
+            const day =
+                String(
+                    today.getDate()
+                ).padStart(2, "0");
+
+
+            dateInput.value =
+                year + "-" +
+                month + "-" +
+                day;
+
+        }
+
+
+
+        // ==========================================
+        // LOAD STUDENTS
+        // ==========================================
+
+        function loadStudents() {
+
+
+            const semester =
+                document.getElementById(
+                    "semester"
+                ).value;
+
+
+            const container =
+                document.getElementById(
+                    "studentList"
+                );
+
+
+            const countElement =
+                document.getElementById(
+                    "studentCount"
+                );
+
+
+
+            // --------------------------------------
+            // CHECK SEMESTER
+            // --------------------------------------
+
+            if (!semester) {
+
+                container.innerHTML = `
+                    <p>
+                        Please select a semester.
+                    </p>
+                `;
+
+                countElement.innerText =
+                    "Select semester to view students.";
+
+                return;
+
+            }
+
+
+
+            // --------------------------------------
+            // CHECK TEACHER BRANCH
+            // --------------------------------------
+
+            if (!teacherBranch) {
+
+                container.innerHTML = `
+                    <p style="color:red;">
+                        Teacher branch not available.
+                    </p>
+                `;
+
+                countElement.innerText =
+                    "0 Students";
+
+                return;
+
+            }
+
+
+
+            // --------------------------------------
+            // GET REGISTERED STUDENTS
+            // --------------------------------------
+
+            const students =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereStudents"
+                    )
+                ) || [];
+
+
+
+            // --------------------------------------
+            // FILTER STUDENTS
+            // --------------------------------------
+
+            const branchStudents =
+                students.filter(
+                    function (student) {
+
+                        return (
+                            student.branch ===
+                            teacherBranch &&
+
+                            student.semester ===
+                            semester
+                        );
+
+                    }
+                );
+
+
+
+            // --------------------------------------
+            // STUDENT COUNT
+            // --------------------------------------
+
+            countElement.innerText =
+                branchStudents.length +
+                " Student(s)";
+
+
+
+            // --------------------------------------
+            // NO STUDENTS
+            // --------------------------------------
+
+            if (branchStudents.length === 0) {
+
+                container.innerHTML = `
+                    <div class="notice">
+
+                        <p>
+                            No registered students found
+                            for ${teacherBranch}
+                            - ${semester} Semester.
+                        </p>
+
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+
+            // --------------------------------------
+            // CLEAR OLD LIST
+            // --------------------------------------
+
+            container.innerHTML = "";
+
+
+
+            // --------------------------------------
+            // DISPLAY STUDENTS
+            // --------------------------------------
+
+            branchStudents.forEach(
+                function (student) {
+
+
+                    const row =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    row.className =
+                        "student-row";
+
+
+                    row.setAttribute(
+                        "data-roll",
+                        student.rollNo
+                    );
+
+
+                    row.setAttribute(
+                        "data-name",
+                        student.name
+                    );
+
+
+
+                    row.innerHTML = `
+
+                        <div>
+
+                            <strong>
+                                ${student.name}
+                            </strong>
+
+                            <small>
+                                Roll No: ${student.rollNo}
+                            </small>
+
+                        </div>
+
+
+                        <div>
+
+                            <button
+                                type="button"
+                                class="present-btn"
+                                onclick="setAttendance(
+                                    this,
+                                    'Present'
+                                )">
+
+                                Present
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="absent-btn"
+                                onclick="setAttendance(
+                                    this,
+                                    'Absent'
+                                )">
+
+                                Absent
+
+                            </button>
+
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(row);
+
+                }
+            );
+
+        }
+
+
+
+        // ==========================================
+        // SET ATTENDANCE
+        // ==========================================
+
+        function setAttendance(
+            button,
+            status
+        ) {
+
+
+            const row =
+                button.closest(
+                    ".student-row"
+                );
+
+
+            const buttons =
+                row.querySelectorAll(
+                    "button"
+                );
+
+
+            buttons.forEach(
+                function (btn) {
+
+                    btn.style.opacity =
+                        "0.5";
+
+                }
+            );
+
+
+            button.style.opacity =
+                "1";
+
+
+            row.setAttribute(
+                "data-status",
+                status
+            );
+
+        }
+
+
+
+        // ==========================================
+        // SAVE ATTENDANCE
+        // ==========================================
+
+        function saveAttendance() {
+
+
+            const semester =
+                document.getElementById(
+                    "semester"
+                ).value;
+
+
+            const date =
+                document.getElementById(
+                    "attendanceDate"
+                ).value;
+
+
+            // --------------------------------------
+            // VALIDATION
+            // --------------------------------------
+
+            if (!teacherBranch) {
+
+                alert(
+                    "⚠️ Teacher branch not available. Please login again."
+                );
+
+                return;
+
+            }
+
+
+            if (!semester) {
+
+                alert(
+                    "⚠️ Please select semester."
+                );
+
+                return;
+
+            }
+
+
+            if (!date) {
+
+                alert(
+                    "⚠️ Please select attendance date."
+                );
+
+                return;
+
+            }
+
+
+
+            // --------------------------------------
+            // GET STUDENTS
+            // --------------------------------------
+
+            const students =
+                document.querySelectorAll(
+                    ".student-row"
+                );
+
+
+            if (students.length === 0) {
+
+                alert(
+                    "⚠️ No students available."
+                );
+
+                return;
+
+            }
+
+
+
+            // --------------------------------------
+            // CHECK ALL STUDENTS
+            // --------------------------------------
+
+            let present = 0;
+
+            let absent = 0;
+
+
+            students.forEach(
+                function (student) {
+
+                    const status =
+                        student.getAttribute(
+                            "data-status"
+                        );
+
+
+                    if (status === "Present") {
+
+                        present++;
+
+                    }
+
+                    else if (
+                        status === "Absent"
+                    ) {
+
+                        absent++;
+
+                    }
+
+                }
+            );
+
+
+
+            if (
+                present + absent !==
+                students.length
+            ) {
+
+                alert(
+                    "⚠️ Please mark attendance for all students."
+                );
+
+                return;
+
+            }
+
+
+
+            // --------------------------------------
+            // GET OLD DATA
+            // --------------------------------------
+
+            let attendanceData =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAttendance"
+                    )
+                ) || {};
+
+
+
+            // --------------------------------------
+            // DATE
+            // --------------------------------------
+
+            if (!attendanceData[date]) {
+
+                attendanceData[date] = {};
+
+            }
+
+
+
+            // --------------------------------------
+            // CLASS KEY
+            // --------------------------------------
+
+            const classKey =
+                teacherBranch +
+                " | " +
+                semester;
+
+
+
+            if (
+                !attendanceData[date][classKey]
+            ) {
+
+                attendanceData[date][classKey] = {
+
+                    branch:
+                        teacherBranch,
+
+                    semester:
+                        semester,
+
+                    students: {}
+
+                };
+
+            }
+
+
+
+            // --------------------------------------
+            // SAVE STUDENT ATTENDANCE
+            // --------------------------------------
+
+            students.forEach(
+                function (student) {
+
+
+                    const roll =
+                        student.getAttribute(
+                            "data-roll"
+                        );
+
+
+                    const name =
+                        student.getAttribute(
+                            "data-name"
+                        );
+
+
+                    const status =
+                        student.getAttribute(
+                            "data-status"
+                        );
+
+
+                    attendanceData[
+                        date
+                    ][
+                        classKey
+                    ].students[
+                        roll
+                    ] = {
+
+                        name:
+                            name,
+
+                        status:
+                            status
+
+                    };
+
+                }
+            );
+
+
+
+            // --------------------------------------
+            // SAVE LOCAL STORAGE
+            // --------------------------------------
+
+            localStorage.setItem(
+
+                "campusSphereAttendance",
+
+                JSON.stringify(
+                    attendanceData
+                )
+
+            );
+
+
+
+            // --------------------------------------
+            // SUCCESS
+            // --------------------------------------
+
+            alert(
+
+                "✅ Attendance saved successfully!" +
+
+                "\n\nBranch: " +
+                teacherBranch +
+
+                "\nSemester: " +
+                semester +
+
+                "\nDate: " +
+                date +
+
+                "\n\nPresent: " +
+                present +
+
+                "\nAbsent: " +
+                absent
+
+            );
+
+        }
+
+
+
+        // ==========================================
+        // LOGOUT
+        // ==========================================
+
+        function logout() {
+
+            localStorage.removeItem(
+                "campusSphereLoggedInTeacher"
+            );
+
+            window.location.href =
+                "index.html";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

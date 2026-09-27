@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Registration</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+    <div class="login-container">
+
+        <div class="login-box">
+
+            <h1>CampusSphere</h1>
+
+            <p class="tagline">
+                Smart & Secure Digital Campus
+            </p>
+
+            <h2>Create Account</h2>
+
+
+            <!-- ROLE -->
+
+            <label for="registerRole">
+                Register As
+            </label>
+
+            <select id="registerRole"
+                    onchange="showRegistrationForm()">
+
+                <option value="">
+                    Select Role
+                </option>
+
+                <option value="student">
+                    Student
+                </option>
+
+                <option value="teacher">
+                    Teacher
+                </option>
+
+                <option value="admin">
+                    Admin
+                </option>
+
+            </select>
+
+
+            <!-- ========================= -->
+            <!-- STUDENT REGISTRATION -->
+            <!-- ========================= -->
+
+            <div id="studentForm"
+                 style="display:none;">
+
+                <h3>🎓 Student Registration</h3>
+
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter full name">
+
+
+                <label>
+                    Mobile Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="studentMobile"
+                    placeholder="Enter mobile number">
+
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="studentEmail"
+                    placeholder="Enter email">
+
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="studentPassword"
+                    placeholder="Create password">
+
+
+                <label>
+                    Roll Number
+                </label>
+
+                <input
+                    type="text"
+                    id="studentRoll"
+                    placeholder="Enter roll number">
+
+
+                <label>
+                    Branch
+                </label>
+
+                <select id="studentBranch">
+
+                    <option value="">
+                        Select Branch
+                    </option>
+
+                    <option value="Computer Science">
+                        Computer Science
+                    </option>
+
+                    <option value="Information Technology">
+                        Information Technology
+                    </option>
+
+                    <option value="Electrical Engineering">
+                        Electrical Engineering
+                    </option>
+
+                    <option value="Mechanical Engineering">
+                        Mechanical Engineering
+                    </option>
+
+                    <option value="Civil Engineering">
+                        Civil Engineering
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Semester
+                </label>
+
+                <select id="studentSemester">
+
+                    <option value="">
+                        Select Semester
+                    </option>
+
+                    <option value="1st">1st Semester</option>
+                    <option value="2nd">2nd Semester</option>
+                    <option value="3rd">3rd Semester</option>
+                    <option value="4th">4th Semester</option>
+                    <option value="5th">5th Semester</option>
+                    <option value="6th">6th Semester</option>
+
+                </select>
+
+
+                <label>
+                    Blood Group
+                </label>
+
+                <select id="studentBloodGroup">
+
+                    <option value="">
+                        Select Blood Group
+                    </option>
+
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+
+                </select>
+
+
+                <label>
+                    Aadhaar Number
+                </label>
+
+                <input
+                    type="text"
+                    id="studentAadhaar"
+                    maxlength="14"
+                    placeholder="XXXX-XXXX-1234">
+
+                <small>
+                    Demo purpose: use a dummy/masked number only.
+                </small>
+
+
+                <label>
+                    Father's Name
+                </label>
+
+                <input
+                    type="text"
+                    id="fatherName"
+                    placeholder="Enter father's name">
+
+
+                <label>
+                    Mother's Name
+                </label>
+
+                <input
+                    type="text"
+                    id="motherName"
+                    placeholder="Enter mother's name">
+
+
+                <label>
+                    Date of Birth
+                </label>
+
+                <input
+                    type="date"
+                    id="studentDOB">
+
+
+                <button
+                    type="button"
+                    onclick="registerStudent()">
+
+                    📝 Register Student
+
+                </button>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- TEACHER REGISTRATION -->
+            <!-- ========================= -->
+
+            <div id="teacherForm"
+                 style="display:none;">
+
+                <h3>👨‍🏫 Teacher Registration</h3>
+
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="teacherName"
+                    placeholder="Enter full name">
+
+
+                <label>
+                    Teacher ID
+                </label>
+
+                <input
+                    type="text"
+                    id="teacherId"
+                    placeholder="Enter teacher ID">
+
+
+                <label>
+                    Mobile Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="teacherMobile"
+                    placeholder="Enter mobile number">
+
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="teacherEmail"
+                    placeholder="Enter email">
+
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="teacherPassword"
+                    placeholder="Create password">
+
+
+                <label>
+                    Department / Branch
+                </label>
+
+                <select id="teacherBranch">
+
+                    <option value="">
+                        Select Department
+                    </option>
+
+                    <option value="Computer Science">
+                        Computer Science
+                    </option>
+
+                    <option value="Information Technology">
+                        Information Technology
+                    </option>
+
+                    <option value="Electrical Engineering">
+                        Electrical Engineering
+                    </option>
+
+                    <option value="Mechanical Engineering">
+                        Mechanical Engineering
+                    </option>
+
+                    <option value="Civil Engineering">
+                        Civil Engineering
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Qualification
+                </label>
+
+                <input
+                    type="text"
+                    id="teacherQualification"
+                    placeholder="e.g. M.Tech / MCA">
+
+
+                <label>
+                    Date of Birth
+                </label>
+
+                <input
+                    type="date"
+                    id="teacherDOB">
+
+
+                <button
+                    type="button"
+                    onclick="registerTeacher()">
+
+                    📝 Register Teacher
+
+                </button>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- ADMIN REGISTRATION -->
+            <!-- ========================= -->
+
+            <div id="adminForm"
+                 style="display:none;">
+
+                <h3>🛡️ Admin Registration</h3>
+
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="adminName"
+                    placeholder="Enter full name">
+
+
+                <label>
+                    Admin ID
+                </label>
+
+                <input
+                    type="text"
+                    id="adminId"
+                    placeholder="Enter admin ID">
+
+
+                <label>
+                    Mobile Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="adminMobile"
+                    placeholder="Enter mobile number">
+
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="adminEmail"
+                    placeholder="Enter email">
+
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="adminPassword"
+                    placeholder="Create password">
+
+
+                <label>
+                    Department
+                </label>
+
+                <input
+                    type="text"
+                    id="adminDepartment"
+                    placeholder="Enter department">
+
+
+                <label>
+                    Date of Birth
+                </label>
+
+                <input
+                    type="date"
+                    id="adminDOB">
+
+
+                <button
+                    type="button"
+                    onclick="registerAdmin()">
+
+                    📝 Register Admin
+
+                </button>
+
+            </div>
+
+
+            <p class="register-text">
+
+                Already have an account?
+
+                <a href="index.html">
+                    Login Here
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <script src="register.js"></script>
+
+</body>
+
+</html>

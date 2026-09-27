@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Student Marks</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Teacher Management Portal
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome-section">
+
+        <h2>
+            📝 Student Marks Management
+        </h2>
+
+        <p>
+            Add and manage student academic marks.
+        </p>
+
+    </section>
+
+
+
+    <!-- MARKS FORM -->
+
+    <main class="marks-container">
+
+        <div class="marks-box">
+
+            <h2>
+                Enter Student Marks
+            </h2>
+
+
+
+            <!-- STUDENT -->
+
+            <label for="student">
+                Student Name
+            </label>
+
+            <select id="student">
+
+                <option value="">
+                    Select Student
+                </option>
+
+                <option value="101|Diya Juyal">
+                    Diya Juyal - Roll No. 101
+                </option>
+
+                <option value="102|Riya">
+                    Riya - Roll No. 102
+                </option>
+
+                <option value="103|Nisha">
+                    Nisha - Roll No. 103
+                </option>
+
+                <option value="104|Aman">
+                    Aman - Roll No. 104
+                </option>
+
+            </select>
+
+
+
+            <!-- SUBJECT -->
+
+            <label for="subject">
+                Subject
+            </label>
+
+            <select id="subject">
+
+                <option value="">
+                    Select Subject
+                </option>
+
+                <option value="Java">
+                    Java
+                </option>
+
+                <option value="DBMS">
+                    DBMS
+                </option>
+
+                <option value="Software Engineering">
+                    Software Engineering
+                </option>
+
+                <option value="Computer Network">
+                    Computer Network
+                </option>
+
+            </select>
+
+
+
+            <!-- INTERNAL -->
+
+            <label for="internalMarks">
+                Internal Marks (Out of 20)
+            </label>
+
+            <input
+                type="number"
+                id="internalMarks"
+                min="0"
+                max="20"
+                placeholder="Enter internal marks">
+
+
+
+            <!-- EXTERNAL -->
+
+            <label for="externalMarks">
+                External Marks (Out of 80)
+            </label>
+
+            <input
+                type="number"
+                id="externalMarks"
+                min="0"
+                max="80"
+                placeholder="Enter external marks">
+
+
+
+            <!-- CALCULATE -->
+
+            <button
+                type="button"
+                class="save-btn"
+                onclick="calculateMarks()">
+
+                🧮 Calculate Result
+
+            </button>
+
+
+
+            <!-- RESULT -->
+
+            <div
+                id="result"
+                class="marks-result">
+
+            </div>
+
+
+
+            <!-- SAVE -->
+
+            <button
+                type="button"
+                class="save-btn"
+                onclick="saveMarks()">
+
+                💾 Save Marks
+
+            </button>
+
+
+
+            <br>
+            <br>
+
+
+
+            <!-- BACK -->
+
+            <button
+                type="button"
+                onclick="window.location.href='teacher-dashboard.html'">
+
+                ← Back to Teacher Dashboard
+
+            </button>
+
+        </div>
+
+    </main>
+
+
+
+    <script>
+
+
+        // ==========================================
+        // TEMPORARY CALCULATED RESULT
+        // ==========================================
+
+        let calculatedMark = null;
+
+
+
+        // ==========================================
+        // CALCULATE MARKS
+        // ==========================================
+
+        function calculateMarks() {
+
+            const studentValue =
+                document.getElementById("student").value;
+
+            const subject =
+                document.getElementById("subject").value;
+
+            const internal =
+                Number(
+                    document.getElementById("internalMarks").value
+                );
+
+            const external =
+                Number(
+                    document.getElementById("externalMarks").value
+                );
+
+
+            // Check student
+
+            if (studentValue === "") {
+
+                alert("⚠️ Please select a student.");
+
+                return;
+
+            }
+
+
+            // Check subject
+
+            if (subject === "") {
+
+                alert("⚠️ Please select a subject.");
+
+                return;
+
+            }
+
+
+            // Check marks
+
+            if (
+                internal < 0 ||
+                internal > 20 ||
+                external < 0 ||
+                external > 80
+            ) {
+
+                alert(
+                    "⚠️ Please enter valid marks.\n\n" +
+                    "Internal: 0-20\n" +
+                    "External: 0-80"
+                );
+
+                return;
+
+            }
+
+
+            // Student information
+
+            const studentData =
+                studentValue.split("|");
+
+            const rollNo =
+                studentData[0];
+
+            const studentName =
+                studentData[1];
+
+
+            // Total marks
+
+            const total =
+                internal + external;
+
+
+            // Percentage
+
+            const percentage =
+                total;
+
+
+            // Store temporary result
+
+            calculatedMark = {
+
+                rollNo: rollNo,
+
+                studentName: studentName,
+
+                subject: subject,
+
+                internal: internal,
+
+                external: external,
+
+                total: total,
+
+                percentage: percentage
+
+            };
+
+
+            // Display result
+
+            document.getElementById("result").innerHTML = `
+
+                <h3>📊 Result</h3>
+
+                <p>
+                    <strong>Student:</strong>
+                    ${studentName}
+                </p>
+
+                <p>
+                    <strong>Roll No:</strong>
+                    ${rollNo}
+                </p>
+
+                <p>
+                    <strong>Subject:</strong>
+                    ${subject}
+                </p>
+
+                <p>
+                    <strong>Internal:</strong>
+                    ${internal} / 20
+                </p>
+
+                <p>
+                    <strong>External:</strong>
+                    ${external} / 80
+                </p>
+
+                <p>
+                    <strong>Total:</strong>
+                    ${total} / 100
+                </p>
+
+                <p>
+                    <strong>Percentage:</strong>
+                    ${percentage.toFixed(1)}%
+                </p>
+
+            `;
+
+        }
+
+
+
+        // ==========================================
+        // SAVE MARKS
+        // ==========================================
+
+        function saveMarks() {
+
+            if (!calculatedMark) {
+
+                alert(
+                    "⚠️ Please calculate the result first."
+                );
+
+                return;
+
+            }
+
+
+            // Get old marks
+
+            let marksData =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereMarks"
+                    )
+                ) || [];
+
+
+            // Check if same student + subject already exists
+
+            const existingIndex =
+                marksData.findIndex(function(mark) {
+
+                    return (
+                        mark.rollNo ===
+                        calculatedMark.rollNo &&
+
+                        mark.subject ===
+                        calculatedMark.subject
+                    );
+
+                });
+
+
+            // Update existing marks
+
+            if (existingIndex !== -1) {
+
+                marksData[existingIndex] =
+                    calculatedMark;
+
+            }
+
+            // Add new marks
+
+            else {
+
+                marksData.push(
+                    calculatedMark
+                );
+
+            }
+
+
+            // Save in localStorage
+
+            localStorage.setItem(
+                "campusSphereMarks",
+                JSON.stringify(marksData)
+            );
+
+
+            alert(
+                "✅ Marks saved successfully!"
+                +
+                "\n\nStudent: " +
+                calculatedMark.studentName
+                +
+                "\nSubject: " +
+                calculatedMark.subject
+                +
+                "\nTotal: " +
+                calculatedMark.total +
+                " / 100"
+            );
+
+
+            // Clear temporary result
+
+            calculatedMark = null;
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

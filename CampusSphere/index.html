@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Login</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-box">
+
+            <h1>CampusSphere</h1>
+
+            <p class="tagline">
+                Smart & Secure Digital Campus
+            </p>
+
+            <h2>Login</h2>
+
+            <form id="loginForm">
+
+                <label for="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+                <label for="role">Login As</label>
+
+                <select id="role" required>
+                    <option value="">Select Role</option>
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="admin">Admin</option>
+                </select>
+
+                <button type="submit">
+                    Login
+                </button>
+
+            </form>
+
+            <p class="register-text">
+                Don't have an account?
+                <a href="register.html">Register Here</a>
+            </p>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

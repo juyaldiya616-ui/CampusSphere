@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Student Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Smart & Secure Digital Campus
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="logout()">
+
+            Logout
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            Welcome, Student! 👋
+        </h2>
+
+        <p>
+            Manage your academic information and college services
+            from one place.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- STUDENT DASHBOARD -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+
+        <!-- ========================= -->
+        <!-- MY PROFILE -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                👤
+            </div>
+
+            <h3>
+                My Profile
+            </h3>
+
+            <p>
+                View and update your personal information.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('profile.html')">
+
+                Open Profile
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- QR DIGITAL ID -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🪪
+            </div>
+
+            <h3>
+                QR Digital ID
+            </h3>
+
+            <p>
+                View your digital college identification card.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('QR.html')">
+
+                View ID
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- DOCUMENT LOCKER -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📂
+            </div>
+
+            <h3>
+                Document Locker
+            </h3>
+
+            <p>
+                Access your important academic documents.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('document.html')">
+
+                Open Locker
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- PERFORMANCE -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📊
+            </div>
+
+            <h3>
+                My Performance
+            </h3>
+
+            <p>
+                Check your marks, attendance and academic progress.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('performance.html')">
+
+                View Performance
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- NOTICE BOARD -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📢
+            </div>
+
+            <h3>
+                Notice Board
+            </h3>
+
+            <p>
+                View important notices and college announcements.
+            </p>
+
+            <button
+                type="button"
+                onclick="showNotice()">
+
+                View Notices
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- ASSIGNMENTS -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📚
+            </div>
+
+            <h3>
+                Assignments
+            </h3>
+
+            <p>
+                View assignments, descriptions and due dates.
+            </p>
+
+            <button
+                type="button"
+                onclick="openStudentAssignments()">
+
+                View Assignments
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- AI ASSISTANT -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🤖
+            </div>
+
+            <h3>
+                AI Campus Assistant
+            </h3>
+
+            <p>
+                Ask questions about notices, assignments,
+                marks and your academic information.
+            </p>
+
+            <button
+                type="button"
+                onclick="openAIAssistant()">
+
+                Ask AI Assistant
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- CERTIFICATE REQUEST -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📝
+            </div>
+
+            <h3>
+                Certificate Requests
+            </h3>
+
+            <p>
+                Apply online for certificates and documents.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('certificate-request.html')">
+
+                Request Certificate
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- ACHIEVEMENTS -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🏆
+            </div>
+
+            <h3>
+                Achievements
+            </h3>
+
+            <p>
+                Manage achievements and placement information.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('achievements.html')">
+
+                View Profile
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- PROFILE BADGES -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🎮
+            </div>
+
+            <h3>
+                Profile Badges
+            </h3>
+
+            <p>
+                Complete your profile and earn badges.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('profile-badges.html')">
+
+                View Badges
+
+            </button>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- STUDENT NOTICE BOARD -->
+    <!-- ========================= -->
+
+    <section
+        id="noticeSection"
+        class="notice-section">
+
+        <h2>
+            📢 Latest Notices
+        </h2>
+
+
+        <p id="noNoticeMessage">
+            Loading notices...
+        </p>
+
+
+        <div id="studentNoticeContainer">
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+
+    <footer>
+
+        <p>
+            © 2026 CampusSphere |
+            Smart & Secure Digital Campus
+        </p>
+
+    </footer>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // =========================
+        // OPEN PAGE
+        // =========================
+
+        function openPage(pageName) {
+
+            window.location.href = pageName;
+
+        }
+
+
+
+        // =========================
+        // OPEN STUDENT ASSIGNMENTS
+        // =========================
+
+        function openStudentAssignments() {
+
+            window.location.href =
+                "student-assignment.html";
+
+        }
+
+
+
+        // =========================
+        // SHOW NOTICE SECTION
+        // =========================
+
+        function showNotice() {
+
+            const noticeSection =
+                document.getElementById(
+                    "noticeSection"
+                );
+
+            noticeSection.scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+
+
+        // =========================
+        // LOAD STUDENT NOTICES
+        // =========================
+
+        function loadStudentNotices() {
+
+            const container =
+                document.getElementById(
+                    "studentNoticeContainer"
+                );
+
+            const noNoticeMessage =
+                document.getElementById(
+                    "noNoticeMessage"
+                );
+
+
+            const notices =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereNotices"
+                    )
+                ) || [];
+
+
+            // No notices
+
+            if (notices.length === 0) {
+
+                container.innerHTML = "";
+
+                noNoticeMessage.innerText =
+                    "📭 No notices available.";
+
+                return;
+
+            }
+
+
+            // Notices available
+
+            noNoticeMessage.innerText = "";
+
+            container.innerHTML = "";
+
+
+            notices.forEach(function(notice) {
+
+                const noticeCard =
+                    document.createElement("div");
+
+
+                noticeCard.className =
+                    "notice";
+
+
+                noticeCard.innerHTML = `
+
+                    <h3>
+                        📢 ${notice.title}
+                    </h3>
+
+                    <p>
+                        ${notice.description ||
+                          notice.content ||
+                          ""}
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        ${notice.date || "N/A"}
+                    </p>
+
+                    <small>
+                        Posted by:
+                        ${notice.postedBy || "Teacher"}
+                    </small>
+
+                `;
+
+
+                container.appendChild(
+                    noticeCard
+                );
+
+            });
+
+        }
+
+
+
+        // =========================
+        // AI ASSISTANT
+        // =========================
+
+        function openAIAssistant() {
+
+            window.location.href =
+                "ai-assistant.html";
+
+        }
+
+
+
+        // =========================
+        // LOGOUT
+        // =========================
+
+        function logout() {
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+
+        // =========================
+        // PAGE LOAD
+        // =========================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadStudentNotices();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

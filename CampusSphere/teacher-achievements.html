@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Achievement Verification</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Teacher Management Portal
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='teacher-dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            🏆 Achievement Verification
+        </h2>
+
+        <p>
+            Review and verify student achievements
+            and placement profiles.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- ACHIEVEMENTS -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+        <div
+            id="teacherAchievementContainer"
+            style="width:100%;">
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK BUTTON -->
+    <!-- ========================= -->
+
+    <div style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='teacher-dashboard.html'">
+
+            ← Back to Teacher Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // DISPLAY ACHIEVEMENTS
+        // ==========================================
+
+        function displayTeacherAchievements() {
+
+
+            const container =
+                document.getElementById(
+                    "teacherAchievementContainer"
+                );
+
+
+            const achievements =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAchievements"
+                    )
+                ) || [];
+
+
+            if (achievements.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="dashboard-card">
+
+                        <h3>
+                            📭 No Achievement Requests
+                        </h3>
+
+                        <p>
+                            No student achievements have
+                            been submitted yet.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML = "";
+
+
+            achievements.forEach(
+                function(achievement, index) {
+
+
+                    const card =
+                        document.createElement("div");
+
+
+                    card.className =
+                        "dashboard-card";
+
+
+                    card.style.marginBottom =
+                        "20px";
+
+
+                    card.innerHTML = `
+
+                        <div class="card-icon">
+                            🏆
+                        </div>
+
+                        <h3>
+                            ${achievement.title}
+                        </h3>
+
+                        <p>
+                            <strong>Type:</strong>
+                            ${achievement.type}
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            ${achievement.date}
+                        </p>
+
+                        <p>
+                            <strong>Description:</strong>
+                            ${achievement.description}
+                        </p>
+
+                        <p>
+                            <strong>Status:</strong>
+                            <span id="status-${index}">
+                                ${achievement.status || "Pending Verification"}
+                            </span>
+                        </p>
+
+                        <br>
+
+                        <button
+                            type="button"
+                            onclick="verifyAchievement(${index})">
+
+                            ✅ Approve / Verify
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            onclick="rejectAchievement(${index})">
+
+                            ❌ Reject
+
+                        </button>
+
+                    `;
+
+
+                    container.appendChild(card);
+
+                }
+            );
+
+        }
+
+
+
+        // ==========================================
+        // VERIFY ACHIEVEMENT
+        // ==========================================
+
+        function verifyAchievement(index) {
+
+
+            let achievements =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAchievements"
+                    )
+                ) || [];
+
+
+            if (!achievements[index]) {
+
+                return;
+
+            }
+
+
+            achievements[index].status =
+                "Verified";
+
+
+            localStorage.setItem(
+                "campusSphereAchievements",
+                JSON.stringify(achievements)
+            );
+
+
+            displayTeacherAchievements();
+
+
+            alert(
+                "✅ Achievement verified successfully!"
+            );
+
+        }
+
+
+
+        // ==========================================
+        // REJECT ACHIEVEMENT
+        // ==========================================
+
+        function rejectAchievement(index) {
+
+
+            let achievements =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAchievements"
+                    )
+                ) || [];
+
+
+            if (!achievements[index]) {
+
+                return;
+
+            }
+
+
+            const confirmReject =
+                confirm(
+                    "Are you sure you want to reject this achievement?"
+                );
+
+
+            if (!confirmReject) {
+
+                return;
+
+            }
+
+
+            achievements[index].status =
+                "Rejected";
+
+
+            localStorage.setItem(
+                "campusSphereAchievements",
+                JSON.stringify(achievements)
+            );
+
+
+            displayTeacherAchievements();
+
+
+            alert(
+                "❌ Achievement rejected."
+            );
+
+        }
+
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                displayTeacherAchievements();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

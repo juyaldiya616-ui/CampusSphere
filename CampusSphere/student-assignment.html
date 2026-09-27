@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - My Assignments</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Smart & Secure Digital Campus
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="logout-btn"
+            onclick="window.location.href='dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            📚 My Assignments
+        </h2>
+
+        <p>
+            View assignments published by your teachers.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- ASSIGNMENT LIST -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+        <div
+            id="studentAssignmentContainer"
+            style="width:100%;">
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK BUTTON -->
+    <!-- ========================= -->
+
+    <div style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='dashboard.html'">
+
+            ← Back to Student Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // LOAD STUDENT ASSIGNMENTS
+        // ==========================================
+
+        function loadStudentAssignments() {
+
+            const container =
+                document.getElementById(
+                    "studentAssignmentContainer"
+                );
+
+
+            // Get assignments published by teacher
+
+            const assignments =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAssignments"
+                    )
+                ) || [];
+
+
+            // No assignments
+
+            if (assignments.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            📭
+                        </div>
+
+                        <h3>
+                            No Assignments Available
+                        </h3>
+
+                        <p>
+                            Your teacher has not published
+                            any assignments yet.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            // Clear container
+
+            container.innerHTML = "";
+
+
+            // Display assignments
+
+            assignments.forEach(function(assignment) {
+
+                const card =
+                    document.createElement("div");
+
+
+                card.className =
+                    "dashboard-card";
+
+
+                card.style.marginBottom = "20px";
+
+
+                card.innerHTML = `
+
+                    <div class="card-icon">
+                        📚
+                    </div>
+
+                    <h3>
+                        ${assignment.title}
+                    </h3>
+
+                    <p>
+                        <strong>Subject:</strong>
+                        ${assignment.subject}
+                    </p>
+
+                    <p>
+                        <strong>Description:</strong>
+                        ${assignment.description}
+                    </p>
+
+                    <p>
+                        <strong>Due Date:</strong>
+                        ${assignment.dueDate}
+                    </p>
+
+                    <p>
+                        <strong>Maximum Marks:</strong>
+                        ${assignment.marks}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        ${assignment.status || "Published"}
+                    </p>
+
+                    <button
+                        type="button"
+                        onclick="viewAssignment('${assignment.title}', '${assignment.description}')">
+
+                        👁️ View Assignment
+
+                    </button>
+
+                `;
+
+
+                container.appendChild(card);
+
+            });
+
+        }
+
+
+
+        // ==========================================
+        // VIEW ASSIGNMENT
+        // ==========================================
+
+        function viewAssignment(title, description) {
+
+            alert(
+                "📚 Assignment\n\n" +
+                "Title: " + title +
+                "\n\nDescription:\n" +
+                description
+            );
+
+        }
+
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadStudentAssignments();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

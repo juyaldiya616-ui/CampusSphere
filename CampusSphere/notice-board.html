@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notice Board - CampusSphere</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>📢 Notice Board</h1>
+
+        <p>Manage college notices for students</p>
+
+
+        <!-- CREATE NOTICE -->
+
+        <div class="notice-form">
+
+            <h2>Create New Notice</h2>
+
+            <label for="noticeTitle">
+                Notice Title
+            </label>
+
+            <input
+                type="text"
+                id="noticeTitle"
+                placeholder="Enter notice title"
+            >
+
+
+            <label for="noticeCategory">
+                Category
+            </label>
+
+            <select id="noticeCategory">
+
+                <option value="">
+                    Select Category
+                </option>
+
+                <option value="Academic">
+                    Academic
+                </option>
+
+                <option value="Examination">
+                    Examination
+                </option>
+
+                <option value="Event">
+                    Event
+                </option>
+
+                <option value="Holiday">
+                    Holiday
+                </option>
+
+                <option value="General">
+                    General
+                </option>
+
+            </select>
+
+
+            <label for="noticeContent">
+                Notice Details
+            </label>
+
+            <textarea
+                id="noticeContent"
+                placeholder="Write complete notice here..."
+            ></textarea>
+
+
+            <label for="noticeDate">
+                Notice Date
+            </label>
+
+            <input
+                type="date"
+                id="noticeDate"
+            >
+
+
+            <button onclick="publishNotice()">
+                Publish Notice
+            </button>
+
+        </div>
+
+
+        <!-- PUBLISHED NOTICES -->
+
+        <div class="notice-list">
+
+            <h2>Published Notices</h2>
+
+            <div id="noticeContainer">
+
+                <p>
+                    No notices published yet.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Assignment Management</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Teacher Management Portal
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            📚 Assignment Management
+        </h2>
+
+        <p>
+            Create, publish and manage student assignments.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- TEACHER ASSIGNMENT -->
+    <!-- ========================= -->
+
+    <main class="assignment-container">
+
+        <div class="assignment-box">
+
+
+            <h2>
+                ➕ Create New Assignment
+            </h2>
+
+
+            <!-- SUBJECT -->
+
+            <label for="subject">
+                Subject
+            </label>
+
+            <input
+                type="text"
+                id="subject"
+                placeholder="Enter subject">
+
+
+
+            <!-- TITLE -->
+
+            <label for="title">
+                Assignment Title
+            </label>
+
+            <input
+                type="text"
+                id="title"
+                placeholder="Enter assignment title">
+
+
+
+            <!-- DESCRIPTION -->
+
+            <label for="description">
+                Description
+            </label>
+
+            <textarea
+                id="description"
+                placeholder="Enter assignment details"></textarea>
+
+
+
+            <!-- DUE DATE -->
+
+            <label for="dueDate">
+                Due Date
+            </label>
+
+            <input
+                type="date"
+                id="dueDate">
+
+
+
+            <!-- MARKS -->
+
+            <label for="marks">
+                Maximum Marks
+            </label>
+
+            <input
+                type="number"
+                id="marks"
+                min="1"
+                placeholder="Enter maximum marks">
+
+
+
+            <!-- PUBLISH -->
+
+            <button
+                type="button"
+                onclick="createAssignment()">
+
+                📢 Publish Assignment
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- PUBLISHED ASSIGNMENTS -->
+        <!-- ========================= -->
+
+        <div class="assignment-list">
+
+            <h2>
+                📚 Published Assignments
+            </h2>
+
+
+            <div id="assignmentContainer">
+
+                <p>
+                    No assignments published yet.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- BACK -->
+        <!-- ========================= -->
+
+        <div style="text-align:center; margin:30px;">
+
+            <button
+                type="button"
+                onclick="window.location.href='teacher-dashboard.html'">
+
+                ← Back to Teacher Dashboard
+
+            </button>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+        // ==========================================
+        // CREATE ASSIGNMENT
+        // ==========================================
+
+        function createAssignment() {
+
+            const subject =
+                document.getElementById("subject").value.trim();
+
+            const title =
+                document.getElementById("title").value.trim();
+
+            const description =
+                document.getElementById("description").value.trim();
+
+            const dueDate =
+                document.getElementById("dueDate").value;
+
+            const marks =
+                document.getElementById("marks").value;
+
+
+            // CHECK FIELDS
+
+            if (
+                subject === "" ||
+                title === "" ||
+                description === "" ||
+                dueDate === "" ||
+                marks === ""
+            ) {
+
+                alert("⚠️ Please fill all assignment details.");
+
+                return;
+            }
+
+
+            // CREATE ASSIGNMENT
+
+            const assignment = {
+
+                id: Date.now(),
+
+                subject: subject,
+
+                title: title,
+
+                description: description,
+
+                dueDate: dueDate,
+
+                marks: marks,
+
+                status: "Published"
+
+            };
+
+
+            // GET OLD ASSIGNMENTS
+
+            let assignments =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAssignments"
+                    )
+                ) || [];
+
+
+            // ADD NEW ASSIGNMENT
+
+            assignments.push(assignment);
+
+
+            // SAVE
+
+            localStorage.setItem(
+                "campusSphereAssignments",
+                JSON.stringify(assignments)
+            );
+
+
+            // CLEAR FORM
+
+            document.getElementById("subject").value = "";
+
+            document.getElementById("title").value = "";
+
+            document.getElementById("description").value = "";
+
+            document.getElementById("dueDate").value = "";
+
+            document.getElementById("marks").value = "";
+
+
+            alert("✅ Assignment published successfully!");
+
+
+            displayTeacherAssignments();
+
+        }
+
+
+
+        // ==========================================
+        // DISPLAY TEACHER ASSIGNMENTS
+        // ==========================================
+
+        function displayTeacherAssignments() {
+
+            const container =
+                document.getElementById(
+                    "assignmentContainer"
+                );
+
+
+            if (!container) {
+                return;
+            }
+
+
+            const assignments =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAssignments"
+                    )
+                ) || [];
+
+
+            if (assignments.length === 0) {
+
+                container.innerHTML =
+                    "<p>No assignments published yet.</p>";
+
+                return;
+
+            }
+
+
+            container.innerHTML = "";
+
+
+            assignments.forEach(function(assignment) {
+
+                const card =
+                    document.createElement("div");
+
+
+                card.className =
+                    "assignment-card";
+
+
+                card.innerHTML = `
+
+                    <h3>
+                        📚 ${assignment.title}
+                    </h3>
+
+                    <p>
+                        <strong>Subject:</strong>
+                        ${assignment.subject}
+                    </p>
+
+                    <p>
+                        <strong>Description:</strong>
+                        ${assignment.description}
+                    </p>
+
+                    <p>
+                        <strong>Due Date:</strong>
+                        ${assignment.dueDate}
+                    </p>
+
+                    <p>
+                        <strong>Maximum Marks:</strong>
+                        ${assignment.marks}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        ${assignment.status}
+                    </p>
+
+                    <button
+                        type="button"
+                        onclick="editAssignment(${assignment.id})">
+
+                        ✏️ Edit Assignment
+
+                    </button>
+
+                    <button
+                        type="button"
+                        onclick="deleteAssignment(${assignment.id})">
+
+                        🗑️ Delete Assignment
+
+                    </button>
+
+                `;
+
+
+                container.appendChild(card);
+
+            });
+
+        }
+
+
+
+        // ==========================================
+        // EDIT ASSIGNMENT
+        // ==========================================
+
+        function editAssignment(id) {
+
+            let assignments =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAssignments"
+                    )
+                ) || [];
+
+
+            const assignment =
+                assignments.find(function(item) {
+
+                    return item.id === id;
+
+                });
+
+
+            if (!assignment) {
+
+                return;
+
+            }
+
+
+            const newTitle =
+                prompt(
+                    "Edit assignment title:",
+                    assignment.title
+                );
+
+
+            if (newTitle === null) {
+
+                return;
+
+            }
+
+
+            const newDescription =
+                prompt(
+                    "Edit assignment description:",
+                    assignment.description
+                );
+
+
+            if (newDescription === null) {
+
+                return;
+
+            }
+
+
+            assignment.title =
+                newTitle.trim();
+
+            assignment.description =
+                newDescription.trim();
+
+
+            localStorage.setItem(
+                "campusSphereAssignments",
+                JSON.stringify(assignments)
+            );
+
+
+            displayTeacherAssignments();
+
+
+            alert("✅ Assignment updated successfully!");
+
+        }
+
+
+
+        // ==========================================
+        // DELETE ASSIGNMENT
+        // ==========================================
+
+        function deleteAssignment(id) {
+
+            let assignments =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAssignments"
+                    )
+                ) || [];
+
+
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to delete this assignment?"
+                );
+
+
+            if (!confirmDelete) {
+
+                return;
+
+            }
+
+
+            assignments =
+                assignments.filter(function(assignment) {
+
+                    return assignment.id !== id;
+
+                });
+
+
+            localStorage.setItem(
+                "campusSphereAssignments",
+                JSON.stringify(assignments)
+            );
+
+
+            displayTeacherAssignments();
+
+
+            alert("🗑️ Assignment deleted successfully!");
+
+        }
+
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                displayTeacherAssignments();
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Notice Management - CampusSphere</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- PAGE HEADING -->
+
+        <h1>📢 Notice Management</h1>
+
+        <p>
+            Manage all college notices from one place.
+        </p>
+
+
+        <!-- NOTICE STATISTICS -->
+
+        <div class="notice-stats">
+
+            <div class="stat-card">
+
+                <h2 id="totalNoticeCount">0</h2>
+
+                <p>Total Notices</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ADMIN PUBLISH NOTICE -->
+
+        <div class="notice-form">
+
+            <h2>➕ Publish New Notice</h2>
+
+            <label for="adminNoticeTitle">
+                Notice Title
+            </label>
+
+            <input
+                type="text"
+                id="adminNoticeTitle"
+                placeholder="Enter notice title"
+            >
+
+
+            <label for="adminNoticeCategory">
+                Category
+            </label>
+
+            <select id="adminNoticeCategory">
+
+                <option value="">
+                    Select Category
+                </option>
+
+                <option value="Academic">
+                    Academic
+                </option>
+
+                <option value="Examination">
+                    Examination
+                </option>
+
+                <option value="Event">
+                    Event
+                </option>
+
+                <option value="Holiday">
+                    Holiday
+                </option>
+
+                <option value="General">
+                    General
+                </option>
+
+            </select>
+
+
+            <label for="adminNoticeContent">
+                Notice Details
+            </label>
+
+            <textarea
+                id="adminNoticeContent"
+                placeholder="Write complete notice here..."
+            ></textarea>
+
+
+            <label for="adminNoticeDate">
+                Notice Date
+            </label>
+
+            <input
+                type="date"
+                id="adminNoticeDate"
+            >
+
+
+            <button onclick="publishAdminNotice()">
+                📢 Publish Notice
+            </button>
+
+        </div>
+
+
+        <!-- ALL NOTICES -->
+
+        <div class="admin-notice-section">
+
+            <h2>📢 All Published Notices</h2>
+
+            <div id="adminNoticeContainer">
+
+                <p>
+                    Loading notices...
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

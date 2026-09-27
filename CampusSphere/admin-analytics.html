@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - College Analytics</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Admin College Analytics
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            📈 College Analytics
+        </h2>
+
+        <p>
+            View overall student, teacher and academic
+            statistics of the college.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- MAIN STATISTICS -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+
+        <!-- STUDENTS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                👨‍🎓
+            </div>
+
+            <h3>
+                Total Students
+            </h3>
+
+            <h2 id="studentCount">
+                0
+            </h2>
+
+            <p>
+                Registered students
+            </p>
+
+        </div>
+
+
+
+        <!-- TEACHERS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                👨‍🏫
+            </div>
+
+            <h3>
+                Total Teachers
+            </h3>
+
+            <h2 id="teacherCount">
+                0
+            </h2>
+
+            <p>
+                Registered teachers
+            </p>
+
+        </div>
+
+
+
+        <!-- NOTICES -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📢
+            </div>
+
+            <h3>
+                Total Notices
+            </h3>
+
+            <h2 id="noticeCount">
+                0
+            </h2>
+
+            <p>
+                Published college notices
+            </p>
+
+        </div>
+
+
+
+        <!-- ASSIGNMENTS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📚
+            </div>
+
+            <h3>
+                Total Assignments
+            </h3>
+
+            <h2 id="assignmentCount">
+                0
+            </h2>
+
+            <p>
+                Published assignments
+            </p>
+
+        </div>
+
+
+
+        <!-- ATTENDANCE -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📅
+            </div>
+
+            <h3>
+                Attendance Sessions
+            </h3>
+
+            <h2 id="attendanceSessions">
+                0
+            </h2>
+
+            <p>
+                Recorded attendance sessions
+            </p>
+
+        </div>
+
+
+
+        <!-- MARKS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📝
+            </div>
+
+            <h3>
+                Marks Records
+            </h3>
+
+            <h2 id="marksCount">
+                0
+            </h2>
+
+            <p>
+                Student subject records
+            </p>
+
+        </div>
+
+
+
+        <!-- OVERALL ATTENDANCE -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📊
+            </div>
+
+            <h3>
+                Overall Attendance
+            </h3>
+
+            <h2 id="overallAttendance">
+                0%
+            </h2>
+
+            <p>
+                College-wide attendance
+            </p>
+
+        </div>
+
+
+
+        <!-- AVERAGE MARKS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🎯
+            </div>
+
+            <h3>
+                Average Marks
+            </h3>
+
+            <h2 id="averageMarks">
+                0%
+            </h2>
+
+            <p>
+                Average student marks
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- ANALYTICS DETAILS -->
+    <!-- ========================= -->
+
+    <section class="notice-section">
+
+        <h2>
+            📊 Academic Overview
+        </h2>
+
+
+        <div class="notice">
+
+            <h3>
+                📅 Attendance Analysis
+            </h3>
+
+            <p id="attendanceDetails">
+                Loading attendance data...
+            </p>
+
+        </div>
+
+
+        <div class="notice">
+
+            <h3>
+                📝 Academic Performance
+            </h3>
+
+            <p id="marksDetails">
+                Loading marks data...
+            </p>
+
+        </div>
+
+
+        <div class="notice">
+
+            <h3>
+                🏫 College Activity
+            </h3>
+
+            <p id="activityDetails">
+                Loading college activity...
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK BUTTON -->
+    <!-- ========================= -->
+
+    <div
+        style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            ← Back to Admin Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // LOAD ANALYTICS
+        // ==========================================
+
+        function loadAnalytics() {
+
+
+            // ==========================================
+            // STUDENTS
+            // ==========================================
+
+            const students =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereStudents"
+                    )
+                ) || [];
+
+
+            document.getElementById(
+                "studentCount"
+            ).innerText =
+                students.length;
+
+
+
+            // ==========================================
+            // TEACHERS
+            // ==========================================
+
+            const teachers =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereTeachers"
+                    )
+                ) || [];
+
+
+            document.getElementById(
+                "teacherCount"
+            ).innerText =
+                teachers.length;
+
+
+
+            // ==========================================
+            // NOTICES
+            // ==========================================
+
+            const notices =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereNotices"
+                    )
+                ) || [];
+
+
+            document.getElementById(
+                "noticeCount"
+            ).innerText =
+                notices.length;
+
+
+
+            // ==========================================
+            // ASSIGNMENTS
+            // ==========================================
+
+            const assignments =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAssignments"
+                    )
+                ) || [];
+
+
+            document.getElementById(
+                "assignmentCount"
+            ).innerText =
+                assignments.length;
+
+
+
+            // ==========================================
+            // ATTENDANCE
+            // ==========================================
+
+            const attendanceData =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAttendance"
+                    )
+                ) || {};
+
+
+            const dates =
+                Object.keys(
+                    attendanceData
+                );
+
+
+            document.getElementById(
+                "attendanceSessions"
+            ).innerText =
+                dates.length;
+
+
+
+            let totalPresent = 0;
+
+            let totalAbsent = 0;
+
+
+
+            dates.forEach(
+                function(date) {
+
+
+                    const dayData =
+                        attendanceData[date];
+
+
+                    if (!dayData) {
+
+                        return;
+
+                    }
+
+
+                    Object.keys(dayData).forEach(
+                        function(rollNo) {
+
+
+                            const student =
+                                dayData[rollNo];
+
+
+                            if (!student) {
+
+                                return;
+
+                            }
+
+
+                            if (
+                                student.status ===
+                                "Present"
+                            ) {
+
+                                totalPresent++;
+
+                            }
+
+
+                            else if (
+                                student.status ===
+                                "Absent"
+                            ) {
+
+                                totalAbsent++;
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+
+
+            const totalAttendance =
+                totalPresent +
+                totalAbsent;
+
+
+            let attendancePercentage =
+                0;
+
+
+            if (
+                totalAttendance > 0
+            ) {
+
+                attendancePercentage =
+                    Math.round(
+                        (
+                            totalPresent /
+                            totalAttendance
+                        ) * 100
+                    );
+
+            }
+
+
+
+            document.getElementById(
+                "overallAttendance"
+            ).innerText =
+                attendancePercentage +
+                "%";
+
+
+
+            document.getElementById(
+                "attendanceDetails"
+            ).innerText =
+
+                "Total Present Records: " +
+                totalPresent +
+
+                " | Total Absent Records: " +
+                totalAbsent +
+
+                " | Overall Attendance: " +
+                attendancePercentage +
+                "%";
+
+
+
+            // ==========================================
+            // MARKS
+            // ==========================================
+
+            const marks =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereMarks"
+                    )
+                ) || [];
+
+
+            document.getElementById(
+                "marksCount"
+            ).innerText =
+                marks.length;
+
+
+
+            let totalMarks =
+                0;
+
+
+            let validMarks =
+                0;
+
+
+
+            marks.forEach(
+                function(mark) {
+
+
+                    if (
+                        mark.total !== undefined &&
+                        mark.total !== null
+                    ) {
+
+                        totalMarks +=
+                            Number(
+                                mark.total
+                            );
+
+                        validMarks++;
+
+                    }
+
+                }
+            );
+
+
+
+            let averageMarks =
+                0;
+
+
+            if (
+                validMarks > 0
+            ) {
+
+                averageMarks =
+                    (
+                        totalMarks /
+                        validMarks
+                    ).toFixed(1);
+
+            }
+
+
+
+            document.getElementById(
+                "averageMarks"
+            ).innerText =
+                averageMarks +
+                "%";
+
+
+
+            document.getElementById(
+                "marksDetails"
+            ).innerText =
+
+                "Total Marks Records: " +
+                marks.length +
+
+                " | Average Marks: " +
+                averageMarks +
+                "%";
+
+
+
+            // ==========================================
+            // COLLEGE ACTIVITY
+            // ==========================================
+
+            document.getElementById(
+                "activityDetails"
+            ).innerText =
+
+                "Students: " +
+                students.length +
+
+                " | Teachers: " +
+                teachers.length +
+
+                " | Notices: " +
+                notices.length +
+
+                " | Assignments: " +
+                assignments.length;
+
+        }
+
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadAnalytics();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

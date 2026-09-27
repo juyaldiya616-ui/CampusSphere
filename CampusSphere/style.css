@@ -1,0 +1,571 @@
+/* =========================================
+   GLOBAL RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   BODY
+========================================= */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eef2ff;
+    color: #222;
+}
+
+
+/* =========================================
+   LOGIN PAGE
+========================================= */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    width: 400px;
+    background-color: white;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.login-box h1 {
+    text-align: center;
+    font-size: 32px;
+    color: #1e3a8a;
+}
+
+.tagline {
+    text-align: center;
+    color: #666;
+    margin-top: 8px;
+    margin-bottom: 30px;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #222;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 7px;
+    background-color: #1e3a8a;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #162d6b;
+}
+
+.register-text {
+    text-align: center;
+    margin-top: 20px;
+    color: #555;
+}
+
+.register-text a {
+    color: #1e3a8a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+/* =========================================
+   DASHBOARD HEADER
+========================================= */
+
+.dashboard-header {
+    background: #1e3a8a;
+    color: white;
+    padding: 20px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.dashboard-header p {
+    margin-top: 5px;
+    opacity: 0.9;
+}
+
+
+/* =========================================
+   LOGOUT BUTTON
+========================================= */
+
+.logout-btn {
+    width: auto;
+    margin: 0;
+    padding: 10px 20px;
+    background: white;
+    color: #1e3a8a;
+    border-radius: 7px;
+}
+
+
+/* =========================================
+   WELCOME SECTION
+========================================= */
+
+.welcome-section {
+    max-width: 1100px;
+    margin: 30px auto 20px;
+    padding: 0 20px;
+}
+
+.welcome-section h2 {
+    color: #1e3a8a;
+    margin-bottom: 8px;
+}
+
+.welcome-section p {
+    color: #666;
+}
+
+
+/* =========================================
+   DASHBOARD CARDS
+========================================= */
+
+.dashboard-container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+
+    transition: transform 0.2s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-icon {
+    font-size: 35px;
+    margin-bottom: 12px;
+}
+
+.dashboard-card h3 {
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.dashboard-card p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.dashboard-card button {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   NOTICE BOARD
+========================================= */
+
+.notice-section {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.notice-section h2 {
+    color: #1e3a8a;
+    margin-bottom: 20px;
+}
+
+.notice {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+
+    border-left: 5px solid #1e3a8a;
+    border-radius: 8px;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.notice h3 {
+    margin-bottom: 8px;
+}
+
+.notice p {
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.notice small {
+    color: #777;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    text-align: center;
+    padding: 25px;
+    margin-top: 30px;
+    background: #1e3a8a;
+    color: white;
+}
+
+
+/* =========================================
+   AI ASSISTANT CONTAINER
+========================================= */
+
+.ai-container {
+    max-width: 850px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.ai-box {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+}
+
+.ai-box h2 {
+    color: #1e3a8a;
+    margin-bottom: 8px;
+}
+
+.ai-box > p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+   AI CHAT BOX
+========================================= */
+
+.chat-box {
+    width: 100%;
+    height: 380px;
+
+    overflow-y: auto;
+
+    background: #f5f7ff;
+
+    border: 1px solid #ddd;
+    border-radius: 12px;
+
+    padding: 15px;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================
+   AI MESSAGE
+========================================= */
+
+.ai-message {
+    background: #e8edff;
+
+    padding: 12px 15px;
+
+    margin-bottom: 12px;
+
+    border-radius: 12px;
+
+    max-width: 80%;
+
+    line-height: 1.5;
+
+    color: #222;
+}
+
+
+/* =========================================
+   USER MESSAGE
+========================================= */
+
+.user-message {
+    background: #1e3a8a;
+
+    color: white;
+
+    padding: 12px 15px;
+
+    margin-bottom: 12px;
+
+    border-radius: 12px;
+
+    max-width: 80%;
+
+    margin-left: auto;
+
+    line-height: 1.5;
+
+    text-align: right;
+}
+
+
+/* =========================================
+   AI INPUT AREA
+========================================= */
+
+.ai-input-area {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 15px;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+   AI TEXT INPUT
+========================================= */
+
+.ai-input-area input {
+    flex: 1;
+
+    width: auto !important;
+
+    min-width: 0;
+
+    height: 52px;
+
+    padding: 12px 15px;
+
+    margin: 0;
+
+    border: 1px solid #aaa;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+
+    color: #222;
+
+    background-color: white;
+
+    outline: none;
+}
+
+
+/* Input focus */
+
+.ai-input-area input:focus {
+    border: 2px solid #1e3a8a;
+
+    box-shadow: 0 0 5px rgba(30, 58, 138, 0.2);
+}
+
+
+/* Placeholder */
+
+.ai-input-area input::placeholder {
+    color: #777;
+}
+
+
+/* =========================================
+   AI SEND BUTTON
+========================================= */
+
+.ai-input-area button {
+    flex: 0 0 110px;
+
+    width: 110px !important;
+
+    min-width: 110px;
+
+    height: 52px;
+
+    padding: 0 15px;
+
+    margin: 0;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background-color: #1e3a8a;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+.ai-input-area button:hover {
+    background-color: #162d6b;
+}
+
+
+/* =========================================
+   PERFORMANCE
+========================================= */
+
+.performance-number {
+    font-size: 30px !important;
+    font-weight: bold;
+    color: #1e3a8a !important;
+    margin: 10px 0;
+}
+
+.performance-info {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.subject-section {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.subject {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.subject-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: #1e3a8a;
+    border-radius: 10px;
+}
+
+
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .dashboard-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .dashboard-header {
+        padding: 15px 20px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 22px;
+    }
+
+    .dashboard-container {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-container {
+        padding: 10px;
+    }
+
+    .ai-box {
+        padding: 15px;
+    }
+
+    .chat-box {
+        height: 350px;
+    }
+
+    .ai-input-area {
+        gap: 8px;
+    }
+
+    .ai-input-area input {
+        height: 50px;
+        font-size: 15px;
+    }
+
+    .ai-input-area button {
+        width: 90px !important;
+        min-width: 90px;
+        height: 50px;
+        font-size: 14px;
+    }
+
+}

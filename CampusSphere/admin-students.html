@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Student Management</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Admin Student Management
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            👨‍🎓 Student Management
+        </h2>
+
+        <p>
+            View and manage registered student information.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- STUDENT LIST -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+        <div class="dashboard-card"
+             style="width:100%;">
+
+            <h2>
+                📋 Registered Students
+            </h2>
+
+            <p id="studentMessage">
+                Loading students...
+            </p>
+
+            <div id="studentContainer">
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK BUTTON -->
+    <!-- ========================= -->
+
+    <div style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            ← Back to Admin Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // =========================
+        // LOAD STUDENTS
+        // =========================
+
+        function loadStudents() {
+
+            const container =
+                document.getElementById(
+                    "studentContainer"
+                );
+
+            const message =
+                document.getElementById(
+                    "studentMessage"
+                );
+
+
+            const students =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereStudents"
+                    )
+                ) || [];
+
+
+            // No students
+
+            if (students.length === 0) {
+
+                container.innerHTML = "";
+
+                message.innerText =
+                    "📭 No registered students found.";
+
+                return;
+
+            }
+
+
+            message.innerText =
+                "Total Registered Students: " +
+                students.length;
+
+
+            container.innerHTML = "";
+
+
+            // Display students
+
+            students.forEach(
+                function(student, index) {
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className = "notice";
+
+
+                    card.innerHTML = `
+
+                        <h3>
+                            👨‍🎓
+                            ${student.name || "Student"}
+                        </h3>
+
+                        <p>
+                            <strong>Roll No:</strong>
+                            ${student.rollNo || "N/A"}
+                        </p>
+
+                        <p>
+                            <strong>Email:</strong>
+                            ${student.email || "N/A"}
+                        </p>
+
+                        <p>
+                            <strong>Course:</strong>
+                            ${student.course || "N/A"}
+                        </p>
+
+                        <button
+                            type="button"
+                            onclick="deleteStudent(${index})">
+
+                            🗑️ Delete Student
+
+                        </button>
+
+                    `;
+
+
+                    container.appendChild(card);
+
+                }
+            );
+
+        }
+
+
+
+        // =========================
+        // DELETE STUDENT
+        // =========================
+
+        function deleteStudent(index) {
+
+            const students =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereStudents"
+                    )
+                ) || [];
+
+
+            const student =
+                students[index];
+
+
+            if (!student) {
+
+                return;
+
+            }
+
+
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to delete " +
+                    (student.name || "this student") +
+                    "?"
+                );
+
+
+            if (!confirmDelete) {
+
+                return;
+
+            }
+
+
+            students.splice(index, 1);
+
+
+            localStorage.setItem(
+                "campusSphereStudents",
+                JSON.stringify(students)
+            );
+
+
+            alert(
+                "✅ Student deleted successfully."
+            );
+
+
+            loadStudents();
+
+        }
+
+
+
+        // =========================
+        // PAGE LOAD
+        // =========================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadStudents();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

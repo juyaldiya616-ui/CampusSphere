@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Admin Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Smart & Secure Digital Campus
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="logout()">
+
+            Logout
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            Welcome, Admin! 🛡️
+        </h2>
+
+        <p>
+            Manage students, teachers, academic activities
+            and college operations from one place.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- ADMIN DASHBOARD -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+
+        <!-- ========================= -->
+        <!-- STUDENT MANAGEMENT -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                👨‍🎓
+            </div>
+
+            <h3>
+                Student Management
+            </h3>
+
+            <p>
+                View and manage registered student
+                information.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('admin-students.html')">
+
+                Manage Students
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- TEACHER MANAGEMENT -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                👨‍🏫
+            </div>
+
+            <h3>
+                Teacher Management
+            </h3>
+
+            <p>
+                View and manage teacher information
+                and accounts.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('admin-teachers.html')">
+
+                Manage Teachers
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- NOTICE MANAGEMENT -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📢
+            </div>
+
+            <h3>
+                Notice Management
+            </h3>
+
+            <p>
+                Monitor and manage college notices
+                and announcements.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('admin-notices.html')">
+
+                Manage Notices
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- CERTIFICATE REQUESTS -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📜
+            </div>
+
+            <h3>
+                Certificate Requests
+            </h3>
+
+            <p>
+                Review student certificate requests
+                and verification status.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('teacher-certificate-requests.html')">
+
+                View Requests
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- ATTENDANCE OVERVIEW -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📅
+            </div>
+
+            <h3>
+                Attendance Overview
+            </h3>
+
+            <p>
+                Monitor student attendance records
+                across classes.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('admin-attendance.html')">
+
+                View Attendance
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- MARKS OVERVIEW -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📝
+            </div>
+
+            <h3>
+                Academic Records
+            </h3>
+
+            <p>
+                Monitor student marks and academic
+                records.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('admin-marks.html')">
+
+                View Records
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- ADMIN VERIFICATION -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🧠
+            </div>
+
+            <h3>
+                Verification Queue
+            </h3>
+
+            <p>
+                Review pending student and academic
+                verification requests.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('admin-verification.html')">
+
+                Open Queue
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- COLLEGE ANALYTICS -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📈
+            </div>
+
+            <h3>
+                College Analytics
+            </h3>
+
+            <p>
+                View overall student, teacher and
+                academic statistics.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('admin-analytics.html')">
+
+                View Analytics
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- SECURITY & AUDIT LOGS -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🔐
+            </div>
+
+            <h3>
+                Security & Audit Logs
+            </h3>
+
+            <p>
+                Monitor system activities and
+                administrative actions.
+            </p>
+
+            <button
+                type="button"
+                onclick="openPage('admin-audit-logs.html')">
+
+                View Audit Logs
+
+            </button>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- ADMIN QUICK OVERVIEW -->
+    <!-- ========================= -->
+
+    <section class="notice-section">
+
+        <h2>
+            📊 Admin Quick Overview
+        </h2>
+
+
+        <div class="notice">
+
+            <h3>
+                👨‍🎓 Registered Students
+            </h3>
+
+            <p id="studentCount">
+                0 Students
+            </p>
+
+        </div>
+
+
+        <div class="notice">
+
+            <h3>
+                👨‍🏫 Registered Teachers
+            </h3>
+
+            <p id="teacherCount">
+                0 Teachers
+            </p>
+
+        </div>
+
+
+        <div class="notice">
+
+            <h3>
+                📢 Published Notices
+            </h3>
+
+            <p id="noticeCount">
+                0 Notices
+            </p>
+
+        </div>
+        <div class="notice">
+
+            <h3>
+                📜 Certificate Requests
+            </h3>
+
+            <p id="certificateRequestCount">
+                 0 Requests
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+
+    <footer>
+
+        <p>
+            © 2026 CampusSphere |
+            Smart & Secure Digital Campus
+        </p>
+
+    </footer>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // =========================
+        // OPEN PAGE
+        // =========================
+
+        function openPage(pageName) {
+
+            window.location.href = pageName;
+
+        }
+
+
+
+        // =========================
+        // LOAD QUICK STATISTICS
+        // =========================
+
+        function loadStatistics() {
+
+
+            // STUDENTS
+
+            const students =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereStudents"
+                    )
+                ) || [];
+
+            document.getElementById(
+                "studentCount"
+            ).innerText =
+                students.length + " Students";
+
+
+
+            // TEACHERS
+
+            const teachers =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereTeachers"
+                    )
+                ) || [];
+
+            document.getElementById(
+                "teacherCount"
+            ).innerText =
+                teachers.length + " Teachers";
+
+
+
+            // NOTICES
+
+            const notices =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereNotices"
+                    )
+                ) || [];
+
+            document.getElementById(
+                "noticeCount"
+            ).innerText =
+                notices.length + " Notices";
+
+        }
+
+
+
+        // =========================
+        // LOGOUT
+        // =========================
+
+        function logout() {
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+
+        // =========================
+        // PAGE LOAD
+        // =========================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadStatistics();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

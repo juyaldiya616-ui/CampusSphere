@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - My Performance</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Smart & Secure Digital Campus
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            📊 My Academic Performance
+        </h2>
+
+        <p>
+            View your attendance, marks and assignment performance.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- PERFORMANCE -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+
+        <!-- ========================= -->
+        <!-- ATTENDANCE -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📅
+            </div>
+
+            <h3>
+                Attendance
+            </h3>
+
+            <p>
+                Total Classes:
+                <strong id="totalClasses">0</strong>
+            </p>
+
+            <p>
+                Present:
+                <strong id="presentClasses">0</strong>
+            </p>
+
+            <p>
+                Absent:
+                <strong id="absentClasses">0</strong>
+            </p>
+
+            <h3>
+
+                <span id="attendancePercentage">
+                    0%
+                </span>
+
+            </h3>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- MARKS -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📝
+            </div>
+
+            <h3>
+                Marks
+            </h3>
+
+            <p>
+                Your academic marks:
+            </p>
+
+            <p>
+                Total Subjects:
+                <strong id="subjectCount">
+                    0
+                </strong>
+            </p>
+
+            <p>
+                Marks Obtained:
+                <strong id="obtainedMarks">
+                    0
+                </strong>
+            </p>
+
+            <p>
+                Maximum Marks:
+                <strong id="maximumMarks">
+                    0
+                </strong>
+            </p>
+
+            <h3 id="marksPercentage">
+                0%
+            </h3>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- ASSIGNMENTS -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📚
+            </div>
+
+            <h3>
+                Assignments
+            </h3>
+
+            <p>
+                Published assignments:
+                <strong id="assignmentCount">
+                    0
+                </strong>
+            </p>
+
+            <h3 id="assignmentPercentage">
+                0%
+            </h3>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- OVERALL PERFORMANCE -->
+        <!-- ========================= -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🎯
+            </div>
+
+            <h3>
+                Overall Performance
+            </h3>
+
+            <p>
+                Your overall academic performance.
+            </p>
+
+            <h2 id="overallPerformance">
+                0%
+            </h2>
+
+            <p id="performanceStatus">
+                No performance data available.
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK BUTTON -->
+    <!-- ========================= -->
+
+    <div
+        style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='dashboard.html'">
+
+            ← Back to Student Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // CURRENT STUDENT
+        // ==========================================
+
+        const studentRoll = "101";
+
+
+
+        // ==========================================
+        // LOAD PERFORMANCE
+        // ==========================================
+
+        function loadPerformance() {
+
+
+            // ======================================
+            // ATTENDANCE
+            // ======================================
+
+            const attendanceData =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAttendance"
+                    )
+                ) || {};
+
+
+            let totalClasses = 0;
+
+            let presentClasses = 0;
+
+            let absentClasses = 0;
+
+
+
+            Object.keys(attendanceData).forEach(
+                function(date) {
+
+                    const dayData =
+                        attendanceData[date];
+
+
+                    if (
+                        dayData &&
+                        dayData[studentRoll]
+                    ) {
+
+                        totalClasses++;
+
+
+                        if (
+                            dayData[studentRoll].status ===
+                            "Present"
+                        ) {
+
+                            presentClasses++;
+
+                        }
+
+
+                        else if (
+                            dayData[studentRoll].status ===
+                            "Absent"
+                        ) {
+
+                            absentClasses++;
+
+                        }
+
+                    }
+
+                }
+            );
+
+
+
+            // Attendance percentage
+
+            let attendancePercentage = 0;
+
+
+            if (totalClasses > 0) {
+
+                attendancePercentage =
+                    Math.round(
+                        (
+                            presentClasses /
+                            totalClasses
+                        ) * 100
+                    );
+
+            }
+
+
+
+            // Display attendance
+
+            document.getElementById(
+                "totalClasses"
+            ).innerText =
+                totalClasses;
+
+
+            document.getElementById(
+                "presentClasses"
+            ).innerText =
+                presentClasses;
+
+
+            document.getElementById(
+                "absentClasses"
+            ).innerText =
+                absentClasses;
+
+
+            document.getElementById(
+                "attendancePercentage"
+            ).innerText =
+                attendancePercentage + "%";
+
+
+
+            // ======================================
+            // ASSIGNMENTS
+            // ======================================
+
+            const assignments =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAssignments"
+                    )
+                ) || [];
+
+
+            const assignmentCount =
+                assignments.length;
+
+
+            let assignmentPercentage = 0;
+
+
+            /*
+                For demo:
+
+                If assignments are published,
+                assignment performance is shown as 80%.
+
+                Later we can connect this with
+                submitted assignments.
+            */
+
+            if (assignmentCount > 0) {
+
+                assignmentPercentage = 80;
+
+            }
+
+
+
+            // Display assignments
+
+            document.getElementById(
+                "assignmentCount"
+            ).innerText =
+                assignmentCount;
+
+
+            document.getElementById(
+                "assignmentPercentage"
+            ).innerText =
+                assignmentPercentage + "%";
+
+
+
+            // ======================================
+            // MARKS
+            // ======================================
+
+            const marksData =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereMarks"
+                    )
+                ) || [];
+
+
+            let totalSubjects = 0;
+
+            let obtainedMarks = 0;
+
+            let maximumMarks = 0;
+
+
+
+            /*
+                Only show marks of the
+                current student.
+
+                Current demo student:
+                Roll No. 101
+            */
+
+            if (
+                Array.isArray(marksData) &&
+                marksData.length > 0
+            ) {
+
+
+                marksData.forEach(
+                    function(mark) {
+
+
+                        if (
+                            String(mark.rollNo) ===
+                            studentRoll
+                        ) {
+
+
+                            totalSubjects++;
+
+
+                            /*
+                                Internal + External
+                                = Obtained Marks
+                            */
+
+                            const internal =
+                                Number(
+                                    mark.internal || 0
+                                );
+
+
+                            const external =
+                                Number(
+                                    mark.external || 0
+                                );
+
+
+                            const total =
+                                Number(
+                                    mark.total || 100
+                                );
+
+
+                            obtainedMarks +=
+                                internal + external;
+
+
+                            maximumMarks +=
+                                total;
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+
+            // Marks percentage
+
+            let marksPercentage = 0;
+
+
+            if (maximumMarks > 0) {
+
+                marksPercentage =
+                    Math.round(
+                        (
+                            obtainedMarks /
+                            maximumMarks
+                        ) * 100
+                    );
+
+            }
+
+
+
+            // Display marks
+
+            document.getElementById(
+                "subjectCount"
+            ).innerText =
+                totalSubjects;
+
+
+            document.getElementById(
+                "obtainedMarks"
+            ).innerText =
+                obtainedMarks;
+
+
+            document.getElementById(
+                "maximumMarks"
+            ).innerText =
+                maximumMarks;
+
+
+            document.getElementById(
+                "marksPercentage"
+            ).innerText =
+                marksPercentage + "%";
+
+
+
+            // ======================================
+            // OVERALL PERFORMANCE
+            // ======================================
+
+            let overall = 0;
+
+
+            const hasPerformanceData =
+                totalClasses > 0 ||
+                totalSubjects > 0 ||
+                assignmentCount > 0;
+
+
+
+            if (hasPerformanceData) {
+
+                overall =
+                    Math.round(
+                        (
+                            attendancePercentage +
+                            marksPercentage +
+                            assignmentPercentage
+                        ) / 3
+                    );
+
+            }
+
+
+
+            // Display overall
+
+            document.getElementById(
+                "overallPerformance"
+            ).innerText =
+                overall + "%";
+
+
+
+            // ======================================
+            // PERFORMANCE STATUS
+            // ======================================
+
+            const status =
+                document.getElementById(
+                    "performanceStatus"
+                );
+
+
+            if (!hasPerformanceData) {
+
+                status.innerText =
+                    "📭 No performance data available.";
+
+            }
+
+
+            else if (overall >= 75) {
+
+                status.innerText =
+                    "🎯 Good Academic Progress";
+
+            }
+
+
+            else if (overall >= 50) {
+
+                status.innerText =
+                    "📚 Needs Improvement";
+
+            }
+
+
+            else {
+
+                status.innerText =
+                    "⚠️ Requires Attention";
+
+            }
+
+        }
+
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadPerformance();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

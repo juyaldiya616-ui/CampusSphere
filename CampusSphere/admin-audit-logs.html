@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Security & Audit Logs</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Security & Audit Logs
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            🔐 Security & Audit Logs
+        </h2>
+
+        <p>
+            Monitor important activities and administrative
+            actions performed in CampusSphere.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- SUMMARY -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+
+        <!-- TOTAL LOGS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📋
+            </div>
+
+            <h3>
+                Total Activities
+            </h3>
+
+            <h2 id="totalLogs">
+                0
+            </h2>
+
+            <p>
+                Recorded system activities
+            </p>
+
+        </div>
+
+
+
+        <!-- LOGIN ACTIVITIES -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🔑
+            </div>
+
+            <h3>
+                Login Activities
+            </h3>
+
+            <h2 id="loginLogs">
+                0
+            </h2>
+
+            <p>
+                Recorded login activities
+            </p>
+
+        </div>
+
+
+
+        <!-- ADMIN ACTIVITIES -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🛡️
+            </div>
+
+            <h3>
+                Admin Activities
+            </h3>
+
+            <h2 id="adminLogs">
+                0
+            </h2>
+
+            <p>
+                Administrative actions
+            </p>
+
+        </div>
+
+
+
+        <!-- OTHER ACTIVITIES -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ⚙️
+            </div>
+
+            <h3>
+                Other Activities
+            </h3>
+
+            <h2 id="otherLogs">
+                0
+            </h2>
+
+            <p>
+                Other recorded activities
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- AUDIT LOGS -->
+    <!-- ========================= -->
+
+    <section class="notice-section">
+
+        <h2>
+            📋 Activity History
+        </h2>
+
+
+        <p id="logMessage">
+            Loading activity logs...
+        </p>
+
+
+        <div id="auditLogContainer">
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- CLEAR LOGS -->
+    <!-- ========================= -->
+
+    <div style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="clearAuditLogs()">
+
+            🗑️ Clear Audit Logs
+
+        </button>
+
+        <br><br>
+
+        <button
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            ← Back to Admin Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+
+    <footer>
+
+        <p>
+            © 2026 CampusSphere |
+            Security & Audit Logs
+        </p>
+
+    </footer>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // =========================
+        // LOAD AUDIT LOGS
+        // =========================
+
+        function loadAuditLogs() {
+
+
+            const container =
+                document.getElementById(
+                    "auditLogContainer"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "logMessage"
+                );
+
+
+            const logs =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAuditLogs"
+                    )
+                ) || [];
+
+
+            // SUMMARY COUNTS
+
+            let loginCount = 0;
+
+            let adminCount = 0;
+
+            let otherCount = 0;
+
+
+            logs.forEach(function(log) {
+
+
+                if (
+                    log.type === "Login"
+                ) {
+
+                    loginCount++;
+
+                }
+
+                else if (
+                    log.type === "Admin"
+                ) {
+
+                    adminCount++;
+
+                }
+
+                else {
+
+                    otherCount++;
+
+                }
+
+            });
+
+
+            document.getElementById(
+                "totalLogs"
+            ).innerText = logs.length;
+
+
+            document.getElementById(
+                "loginLogs"
+            ).innerText = loginCount;
+
+
+            document.getElementById(
+                "adminLogs"
+            ).innerText = adminCount;
+
+
+            document.getElementById(
+                "otherLogs"
+            ).innerText = otherCount;
+
+
+
+            // NO LOGS
+
+            if (logs.length === 0) {
+
+                message.innerText =
+                    "📭 No audit activities recorded yet.";
+
+                container.innerHTML = "";
+
+                return;
+
+            }
+
+
+            message.innerText =
+                "Showing " +
+                logs.length +
+                " recorded activities.";
+
+
+            container.innerHTML = "";
+
+
+
+            // DISPLAY LOGS
+
+            logs
+                .slice()
+                .reverse()
+                .forEach(function(log) {
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "notice";
+
+
+                    card.innerHTML = `
+
+                        <h3>
+                            ${getLogIcon(log.type)}
+                            ${log.action || "System Activity"}
+                        </h3>
+
+                        <p>
+                            <strong>User:</strong>
+                            ${log.user || "System"}
+                        </p>
+
+                        <p>
+                            <strong>Role:</strong>
+                            ${log.role || "N/A"}
+                        </p>
+
+                        <p>
+                            <strong>Type:</strong>
+                            ${log.type || "Other"}
+                        </p>
+
+                        <p>
+                            <strong>Date & Time:</strong>
+                            ${log.date || "N/A"}
+                        </p>
+
+                    `;
+
+
+                    container.appendChild(
+                        card
+                    );
+
+                });
+
+        }
+
+
+
+        // =========================
+        // LOG ICON
+        // =========================
+
+        function getLogIcon(type) {
+
+
+            if (type === "Login") {
+
+                return "🔑";
+
+            }
+
+
+            if (type === "Admin") {
+
+                return "🛡️";
+
+            }
+
+
+            return "⚙️";
+
+        }
+
+
+
+        // =========================
+        // CREATE DEMO LOG
+        // =========================
+
+        function addAuditLog(
+            type,
+            action,
+            user,
+            role
+        ) {
+
+
+            let logs =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereAuditLogs"
+                    )
+                ) || [];
+
+
+            logs.push({
+
+                type: type,
+
+                action: action,
+
+                user: user || "System",
+
+                role: role || "N/A",
+
+                date:
+                    new Date().toLocaleString()
+
+            });
+
+
+            localStorage.setItem(
+                "campusSphereAuditLogs",
+                JSON.stringify(logs)
+            );
+
+
+        }
+
+
+
+        // =========================
+        // CLEAR LOGS
+        // =========================
+
+        function clearAuditLogs() {
+
+
+            const confirmClear =
+                confirm(
+                    "Are you sure you want to clear all audit logs?"
+                );
+
+
+            if (!confirmClear) {
+
+                return;
+
+            }
+
+
+            localStorage.removeItem(
+                "campusSphereAuditLogs"
+            );
+
+
+            alert(
+                "✅ Audit logs cleared successfully."
+            );
+
+
+            loadAuditLogs();
+
+        }
+
+
+
+        // =========================
+        // PAGE LOAD
+        // =========================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadAuditLogs();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

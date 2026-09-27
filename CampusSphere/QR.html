@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Digital ID</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+    <div class="profile-container">
+
+        <h1>CampusSphere</h1>
+        <p class="tagline">Smart & Secure Digital Campus</p>
+
+        <div class="profile-box">
+
+            <h2>🪪 QR Digital ID</h2>
+            <p>Digital College Identification Card</p>
+
+            <div class="id-card">
+
+                <div class="college-name">
+                    CAMPUSSPHERE
+                </div>
+
+                <div class="student-icon">
+                    👩‍🎓
+                </div>
+
+                <h3 id="studentName">Student Name</h3>
+
+                <p><b>Roll No:</b> <span id="rollNo">CS001</span></p>
+                <p><b>Course:</b> <span id="course">Computer Science</span></p>
+                <p><b>Semester:</b> <span id="semester">6th Semester</span></p>
+
+                <div id="qrcode"></div>
+
+                <p class="id-status">✓ Valid Student ID</p>
+
+            </div>
+
+            <button onclick="window.location.href='dashboard.html'">
+                Back to Dashboard
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Student information
+        const studentData = {
+            name: "Diya Juyal",
+            rollNo: "CS001",
+            course: "Computer Science & Engineering",
+            semester: "6th Semester"
+        };
+
+        // Display student information
+        document.getElementById("studentName").innerText = studentData.name;
+        document.getElementById("rollNo").innerText = studentData.rollNo;
+        document.getElementById("course").innerText = studentData.course;
+        document.getElementById("semester").innerText = studentData.semester;
+
+        // Generate QR Code
+        const qrData =
+            "CampusSphere Student ID\n" +
+            "Name: " + studentData.name + "\n" +
+            "Roll No: " + studentData.rollNo + "\n" +
+            "Course: " + studentData.course + "\n" +
+            "Semester: " + studentData.semester;
+
+        new QRCode(document.getElementById("qrcode"), {
+            text: qrData,
+            width: 130,
+            height: 130
+        });
+
+    </script>
+
+</body>
+</html>

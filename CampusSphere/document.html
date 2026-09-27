@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Document Locker</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <header class="dashboard-header">
+
+        <div>
+            <h1>CampusSphere</h1>
+
+            <p>
+                Smart & Secure Digital Campus
+            </p>
+        </div>
+
+    </header>
+
+
+    <!-- Welcome -->
+
+    <section class="welcome-section">
+
+        <h2>
+            📂 Digital Document Locker
+        </h2>
+
+        <p>
+            Access your important academic documents
+            securely from one place.
+        </p>
+
+    </section>
+
+
+    <!-- Documents -->
+
+    <main class="dashboard-container">
+
+
+        <!-- Marksheet -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📄
+            </div>
+
+            <h3>
+                Semester Marksheet
+            </h3>
+
+            <p>
+                View your academic result document.
+            </p>
+
+            <button
+                onclick="viewDocument('Semester Marksheet')">
+
+                View Document
+
+            </button>
+
+        </div>
+
+
+        <!-- College ID -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🪪
+            </div>
+
+            <h3>
+                College ID Card
+            </h3>
+
+            <p>
+                View your college identification document.
+            </p>
+
+            <button
+                onclick="viewDocument('College ID Card')">
+
+                View Document
+
+            </button>
+
+        </div>
+
+
+        <!-- Certificate -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📜
+            </div>
+
+            <h3>
+                Course Certificate
+            </h3>
+
+            <p>
+                View your academic course certificate.
+            </p>
+
+            <button
+                onclick="viewDocument('Course Certificate')">
+
+                View Document
+
+            </button>
+
+        </div>
+
+
+        <!-- Other Documents -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📑
+            </div>
+
+            <h3>
+                Other Documents
+            </h3>
+
+            <p>
+                Access additional college documents.
+            </p>
+
+            <button
+                onclick="viewDocument('Other Documents')">
+
+                View Document
+
+            </button>
+
+        </div>
+
+
+    </main>
+
+
+    <!-- Back -->
+
+    <div style="text-align: center; margin: 30px;">
+
+        <button
+            onclick="window.location.href='dashboard.html'">
+
+            ← Back to Dashboard
+
+        </button>
+
+    </div>
+
+
+    <!-- JavaScript -->
+
+    <script>
+
+        function viewDocument(documentName) {
+
+            alert(
+                "📂 " + documentName +
+                "\n\n" +
+                "This is a demo document.\n\n" +
+                "Actual document upload and secure storage " +
+                "will be added in the final application."
+            );
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

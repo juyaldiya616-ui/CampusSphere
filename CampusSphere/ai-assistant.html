@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - AI Assistant</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Smart & Secure Digital Campus
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='student-dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            🤖 CampusSphere AI Assistant
+        </h2>
+
+        <p>
+            Ask questions about notices, assignments,
+            marks, attendance and campus services.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- AI ASSISTANT -->
+    <!-- ========================= -->
+
+    <main class="ai-container">
+
+        <div class="ai-box">
+
+
+            <h2>
+                💬 Ask CampusSphere AI
+            </h2>
+
+
+            <p>
+                How can I help you today?
+            </p>
+
+
+
+            <!-- ========================= -->
+            <!-- CHAT BOX -->
+            <!-- ========================= -->
+
+            <div
+                id="chatBox"
+                class="chat-box">
+
+
+                <div class="ai-message">
+
+                    🤖 Hello! I am CampusSphere AI Assistant.
+
+                    <br><br>
+
+                    You can ask me about:
+
+                    <br>
+
+                    📢 Notices
+
+                    <br>
+
+                    📚 Assignments
+
+                    <br>
+
+                    📝 Marks
+
+                    <br>
+
+                    📅 Attendance
+
+                    <br>
+
+                    📊 Performance
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ========================= -->
+            <!-- INPUT -->
+            <!-- ========================= -->
+
+            <div class="ai-input-area">
+
+
+                <input
+                    type="text"
+                    id="userQuestion"
+                    placeholder="Type your question here..."
+                    autocomplete="off"
+                    onkeydown="handleEnter(event)">
+
+
+                <button
+                    type="button"
+                    onclick="askAI()">
+
+                    Send
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- ========================= -->
+            <!-- BACK BUTTON -->
+            <!-- ========================= -->
+
+            <button
+                type="button"
+                onclick="window.location.href='student-dashboard.html'">
+
+                ← Back to Student Dashboard
+
+            </button>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // ASK AI
+        // ==========================================
+
+        function askAI() {
+
+
+            const input =
+                document.getElementById("userQuestion");
+
+
+            const chatBox =
+                document.getElementById("chatBox");
+
+
+            const question =
+                input.value.trim();
+
+
+            if (question === "") {
+
+                alert("Please enter your question.");
+
+                return;
+
+            }
+
+
+
+            // =========================
+            // USER MESSAGE
+            // =========================
+
+            const userMessage =
+                document.createElement("div");
+
+
+            userMessage.className =
+                "user-message";
+
+
+            userMessage.innerText =
+                "You: " + question;
+
+
+            chatBox.appendChild(userMessage);
+
+
+
+            // =========================
+            // AI RESPONSE
+            // =========================
+
+            const answer =
+                getAIResponse(question);
+
+
+            const aiMessage =
+                document.createElement("div");
+
+
+            aiMessage.className =
+                "ai-message";
+
+
+            aiMessage.innerText =
+                "🤖 AI Assistant: " + answer;
+
+
+            chatBox.appendChild(aiMessage);
+
+
+
+            // Clear input
+
+            input.value = "";
+
+
+
+            // Scroll chat
+
+            chatBox.scrollTop =
+                chatBox.scrollHeight;
+
+        }
+
+
+
+        // ==========================================
+        // GET NOTICES
+        // ==========================================
+
+        function getNotices() {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    "campusSphereNotices"
+                )
+            ) || [];
+
+        }
+
+
+
+        // ==========================================
+        // AI RESPONSE SYSTEM
+        // ==========================================
+
+        function getAIResponse(question) {
+
+
+            const q =
+                question.toLowerCase().trim();
+
+
+            // Get latest teacher notices
+
+            const notices =
+                getNotices();
+
+
+
+            // ======================================
+            // GREETING
+            // ======================================
+
+            if (
+                q.includes("hello") ||
+                q.includes("hi") ||
+                q.includes("hey") ||
+                q.includes("hii")
+            ) {
+
+                return (
+                    "Hello! 👋 How can I help you " +
+                    "with CampusSphere?"
+                );
+
+            }
+
+
+
+            // ======================================
+            // THANK YOU
+            // ======================================
+
+            if (
+                q.includes("thank") ||
+                q.includes("thanks")
+            ) {
+
+                return (
+                    "You're welcome! 😊 " +
+                    "I'm here to help."
+                );
+
+            }
+
+
+
+            // ======================================
+            // NOTICE COUNT
+            // ======================================
+
+            if (
+                q.includes("how many notice") ||
+                q.includes("number of notice") ||
+                q.includes("total notice")
+            ) {
+
+                if (notices.length === 0) {
+
+                    return (
+                        "There are currently no notices " +
+                        "available on the CampusSphere Notice Board."
+                    );
+
+                }
+
+                return (
+                    "There are currently " +
+                    notices.length +
+                    " notice(s) available on the CampusSphere Notice Board."
+                );
+
+            }
+
+
+
+            // ======================================
+            // LATEST NOTICE
+            // ======================================
+
+            if (
+                q.includes("latest notice") ||
+                q.includes("recent notice") ||
+                q.includes("new notice") ||
+                q.includes("latest announcement") ||
+                q.includes("recent announcement") ||
+                q.includes("latest update")
+            ) {
+
+
+                if (notices.length === 0) {
+
+                    return (
+                        "There are currently no notices " +
+                        "available on the CampusSphere Notice Board."
+                    );
+
+                }
+
+
+                const latest =
+                    notices[notices.length - 1];
+
+
+                return (
+                    "📢 Latest Notice: " +
+                    latest.title +
+                    ". " +
+                    latest.description +
+                    " Date: " +
+                    latest.date +
+                    ". Posted by: " +
+                    latest.postedBy +
+                    "."
+                );
+
+            }
+
+
+
+            // ======================================
+            // WHO POSTED NOTICE
+            // ======================================
+
+            if (
+                q.includes("who posted") ||
+                q.includes("posted by") ||
+                q.includes("who announced")
+            ) {
+
+
+                if (notices.length === 0) {
+
+                    return (
+                        "There are currently no notices available."
+                    );
+
+                }
+
+
+                const latest =
+                    notices[notices.length - 1];
+
+
+                return (
+                    "The latest notice was posted by " +
+                    latest.postedBy +
+                    "."
+                );
+
+            }
+
+
+
+            // ======================================
+            // NOTICE DATE
+            // ======================================
+
+            if (
+                q.includes("notice date") ||
+                q.includes("date of notice") ||
+                q.includes("when was the notice")
+            ) {
+
+
+                if (notices.length === 0) {
+
+                    return (
+                        "There are currently no notices available."
+                    );
+
+                }
+
+
+                const latest =
+                    notices[notices.length - 1];
+
+
+                return (
+                    "The latest notice was posted on " +
+                    latest.date +
+                    "."
+                );
+
+            }
+
+
+
+            // ======================================
+            // ALL NOTICES
+            // ======================================
+
+            if (
+                q.includes("show all notices") ||
+                q.includes("all notices") ||
+                q.includes("list of notices") ||
+                q.includes("notices available")
+            ) {
+
+
+                if (notices.length === 0) {
+
+                    return (
+                        "There are currently no notices available."
+                    );
+
+                }
+
+
+                let response =
+                    "📢 Available Notices: ";
+
+
+                notices.forEach(
+                    function(notice, index) {
+
+                        response +=
+                            (index + 1) +
+                            ". " +
+                            notice.title +
+                            ". ";
+
+                    }
+                );
+
+
+                return response;
+
+            }
+
+
+
+            // ======================================
+            // SEARCH SPECIFIC NOTICE
+            // ======================================
+
+            if (notices.length > 0) {
+
+
+                for (
+                    let i = 0;
+                    i < notices.length;
+                    i++
+                ) {
+
+
+                    const notice =
+                        notices[i];
+
+
+                    const title =
+                        String(
+                            notice.title || ""
+                        ).toLowerCase();
+
+
+                    const description =
+                        String(
+                            notice.description || ""
+                        ).toLowerCase();
+
+
+                    const postedBy =
+                        String(
+                            notice.postedBy || ""
+                        ).toLowerCase();
+
+
+
+                    // Search using words from question
+
+                    const words =
+                        q.split(/\s+/);
+
+
+                    for (
+                        let j = 0;
+                        j < words.length;
+                        j++
+                    ) {
+
+
+                        const word =
+                            words[j];
+
+
+                        if (
+                            word.length > 3 &&
+                            (
+                                title.includes(word) ||
+                                description.includes(word) ||
+                                postedBy.includes(word)
+                            )
+                        ) {
+
+
+                            return (
+                                "📢 I found a related notice: " +
+                                notice.title +
+                                ". " +
+                                notice.description +
+                                " Date: " +
+                                notice.date +
+                                ". Posted by: " +
+                                notice.postedBy +
+                                "."
+                            );
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+
+
+            // ======================================
+            // GENERAL NOTICE QUESTION
+            // ======================================
+
+            if (
+                q.includes("notice") ||
+                q.includes("announcement") ||
+                q.includes("circular") ||
+                q.includes("college update")
+            ) {
+
+
+                if (notices.length === 0) {
+
+                    return (
+                        "There are currently no notices " +
+                        "available on the CampusSphere Notice Board."
+                    );
+
+                }
+
+
+                const latest =
+                    notices[notices.length - 1];
+
+
+                return (
+                    "The latest notice is " +
+                    latest.title +
+                    ". " +
+                    latest.description +
+                    " It was posted on " +
+                    latest.date +
+                    " by " +
+                    latest.postedBy +
+                    "."
+                );
+
+            }
+
+
+
+            // ======================================
+            // ATTENDANCE
+            // ======================================
+
+            if (
+                q.includes("attendance") ||
+                q.includes("present") ||
+                q.includes("absent")
+            ) {
+
+                return (
+                    "You can check your attendance " +
+                    "from the Performance section " +
+                    "of your Student Dashboard."
+                );
+
+            }
+
+
+
+            // ======================================
+            // ASSIGNMENT
+            // ======================================
+
+            if (
+                q.includes("assignment") ||
+                q.includes("homework") ||
+                q.includes("due date")
+            ) {
+
+                return (
+                    "You can view your published assignments " +
+                    "and their due dates from the Assignments section."
+                );
+
+            }
+
+
+
+            // ======================================
+            // MARKS
+            // ======================================
+
+            if (
+                q.includes("marks") ||
+                q.includes("result") ||
+                q.includes("score")
+            ) {
+
+                return (
+                    "You can check your academic marks " +
+                    "from the Performance section."
+                );
+
+            }
+
+
+
+            // ======================================
+            // PERFORMANCE
+            // ======================================
+
+            if (
+                q.includes("performance") ||
+                q.includes("academic progress")
+            ) {
+
+                return (
+                    "Your attendance, marks, assignments " +
+                    "and overall academic performance can " +
+                    "be viewed in the Performance section."
+                );
+
+            }
+
+
+
+            // ======================================
+            // HELP
+            // ======================================
+
+            if (
+                q.includes("help") ||
+                q.includes("what can you do") ||
+                q.includes("what can i ask")
+            ) {
+
+                return (
+                    "I can help you with CampusSphere " +
+                    "information such as notices, assignments, " +
+                    "marks, attendance and performance. " +
+                    "You can also ask me about the latest college notice."
+                );
+
+            }
+
+
+
+            // ======================================
+            // DEFAULT RESPONSE
+            // ======================================
+
+            return (
+                "I'm currently designed to help with " +
+                "CampusSphere information such as notices, " +
+                "assignments, marks, attendance and performance. " +
+                "Try asking: 'What is the latest notice?'"
+            );
+
+        }
+
+
+
+        // ==========================================
+        // ENTER KEY
+        // ==========================================
+
+        function handleEnter(event) {
+
+            if (event.key === "Enter") {
+
+                askAI();
+
+            }
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

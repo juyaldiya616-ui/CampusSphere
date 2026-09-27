@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Verification Queue</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Admin Verification Queue
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            🧠 Verification Queue
+        </h2>
+
+        <p>
+            Review and manage pending student and academic
+            verification requests.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- SUMMARY -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+
+        <!-- PENDING -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ⏳
+            </div>
+
+            <h3>
+                Pending Requests
+            </h3>
+
+            <h2 id="pendingCount">
+                0
+            </h2>
+
+            <p>
+                Requests waiting for verification
+            </p>
+
+        </div>
+
+
+
+        <!-- APPROVED -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ✅
+            </div>
+
+            <h3>
+                Approved
+            </h3>
+
+            <h2 id="approvedCount">
+                0
+            </h2>
+
+            <p>
+                Successfully verified requests
+            </p>
+
+        </div>
+
+
+
+        <!-- REJECTED -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ❌
+            </div>
+
+            <h3>
+                Rejected
+            </h3>
+
+            <h2 id="rejectedCount">
+                0
+            </h2>
+
+            <p>
+                Rejected verification requests
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- VERIFICATION REQUESTS -->
+    <!-- ========================= -->
+
+    <section class="notice-section">
+
+        <h2>
+            📋 Verification Requests
+        </h2>
+
+
+        <p id="verificationMessage">
+            Loading verification requests...
+        </p>
+
+
+        <div id="verificationContainer">
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK BUTTON -->
+    <!-- ========================= -->
+
+    <div
+        style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='admin-dashboard.html'">
+
+            ← Back to Admin Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // LOAD REQUESTS
+        // ==========================================
+
+        function loadVerificationRequests() {
+
+
+            const container =
+                document.getElementById(
+                    "verificationContainer"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "verificationMessage"
+                );
+
+
+            /*
+             * Student verification requests
+             * are stored here.
+             */
+
+            const requests =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereVerificationRequests"
+                    )
+                ) || [];
+
+
+
+            container.innerHTML = "";
+
+
+
+            // ==========================================
+            // IF NO REQUESTS
+            // ==========================================
+
+            if (requests.length === 0) {
+
+                message.innerText =
+                    "📭 No verification requests available.";
+
+                updateSummary([]);
+
+                return;
+
+            }
+
+
+
+            message.innerText =
+                "Showing " +
+                requests.length +
+                " verification request(s).";
+
+
+
+            // ==========================================
+            // DISPLAY REQUESTS
+            // ==========================================
+
+            requests.forEach(
+                function(request, index) {
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "notice";
+
+
+
+                    const status =
+                        request.status ||
+                        "Pending";
+
+
+
+                    card.innerHTML = `
+
+                        <h3>
+                            👨‍🎓
+                            ${request.studentName || "Student"}
+                        </h3>
+
+                        <p>
+                            <strong>
+                                Roll No:
+                            </strong>
+
+                            ${request.rollNo || "N/A"}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Request Type:
+                            </strong>
+
+                            ${request.type || "Student Verification"}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Details:
+                            </strong>
+
+                            ${request.description || request.details || "Verification request"}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Status:
+                            </strong>
+
+                            ${status}
+                        </p>
+
+                        <div
+                            style="margin-top:15px;">
+
+                            ${
+                                status === "Pending"
+
+                                ?
+
+                                `
+
+                                <button
+                                    type="button"
+                                    onclick="approveRequest(${index})">
+
+                                    ✅ Approve
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onclick="rejectRequest(${index})">
+
+                                    ❌ Reject
+
+                                </button>
+
+                                `
+
+                                :
+
+                                `
+
+                                <p>
+                                    <strong>
+                                        Request already processed.
+                                    </strong>
+                                </p>
+
+                                `
+
+                            }
+
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(
+                        card
+                    );
+
+
+                }
+            );
+
+
+
+            updateSummary(
+                requests
+            );
+
+        }
+
+
+
+        // ==========================================
+        // APPROVE REQUEST
+        // ==========================================
+
+        function approveRequest(index) {
+
+
+            const requests =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereVerificationRequests"
+                    )
+                ) || [];
+
+
+
+            if (!requests[index]) {
+
+                return;
+
+            }
+
+
+
+            requests[index].status =
+                "Approved";
+
+
+
+            requests[index].verifiedBy =
+                "Admin";
+
+
+
+            requests[index].verifiedAt =
+                new Date().toLocaleString();
+
+
+
+            localStorage.setItem(
+
+                "campusSphereVerificationRequests",
+
+                JSON.stringify(
+                    requests
+                )
+
+            );
+
+
+
+            alert(
+                "✅ Verification request approved successfully!"
+            );
+
+
+
+            loadVerificationRequests();
+
+        }
+
+
+
+        // ==========================================
+        // REJECT REQUEST
+        // ==========================================
+
+        function rejectRequest(index) {
+
+
+            const requests =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereVerificationRequests"
+                    )
+                ) || [];
+
+
+
+            if (!requests[index]) {
+
+                return;
+
+            }
+
+
+
+            requests[index].status =
+                "Rejected";
+
+
+
+            requests[index].verifiedBy =
+                "Admin";
+
+
+
+            requests[index].verifiedAt =
+                new Date().toLocaleString();
+
+
+
+            localStorage.setItem(
+
+                "campusSphereVerificationRequests",
+
+                JSON.stringify(
+                    requests
+                )
+
+            );
+
+
+
+            alert(
+                "❌ Verification request rejected."
+            );
+
+
+
+            loadVerificationRequests();
+
+        }
+
+
+
+        // ==========================================
+        // UPDATE SUMMARY
+        // ==========================================
+
+        function updateSummary(requests) {
+
+
+            let pending = 0;
+
+            let approved = 0;
+
+            let rejected = 0;
+
+
+
+            requests.forEach(
+                function(request) {
+
+
+                    const status =
+                        request.status ||
+                        "Pending";
+
+
+
+                    if (
+                        status ===
+                        "Pending"
+                    ) {
+
+                        pending++;
+
+                    }
+
+
+                    else if (
+                        status ===
+                        "Approved"
+                    ) {
+
+                        approved++;
+
+                    }
+
+
+                    else if (
+                        status ===
+                        "Rejected"
+                    ) {
+
+                        rejected++;
+
+                    }
+
+                }
+            );
+
+
+
+            document.getElementById(
+                "pendingCount"
+            ).innerText =
+                pending;
+
+
+
+            document.getElementById(
+                "approvedCount"
+            ).innerText =
+                approved;
+
+
+
+            document.getElementById(
+                "rejectedCount"
+            ).innerText =
+                rejected;
+
+        }
+
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadVerificationRequests();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

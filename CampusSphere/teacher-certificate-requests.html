@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Certificate Requests</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Teacher Management Portal
+            </p>
+
+        </div>
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='index.html'">
+
+            Logout
+
+        </button>
+
+    </header>
+
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome-section">
+
+        <h2>
+            📄 Certificate Request Management
+        </h2>
+
+        <p>
+            Review and manage student certificate requests.
+        </p>
+
+    </section>
+
+
+
+    <!-- REQUEST LIST -->
+
+    <main class="notice-section">
+
+        <h2>
+            📋 Student Certificate Requests
+        </h2>
+
+
+        <div id="teacherRequestContainer">
+
+            <p>
+                Loading certificate requests...
+            </p>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- BACK BUTTON -->
+
+    <div style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='teacher-dashboard.html'">
+
+            ← Back to Teacher Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+
+        // ==========================================
+        // DISPLAY CERTIFICATE REQUESTS
+        // ==========================================
+
+        function displayCertificateRequests() {
+
+            const container =
+                document.getElementById(
+                    "teacherRequestContainer"
+                );
+
+
+            const requests =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereCertificateRequests"
+                    )
+                ) || [];
+
+
+            if (requests.length === 0) {
+
+                container.innerHTML =
+                    "<p>No certificate requests available.</p>";
+
+                return;
+
+            }
+
+
+            container.innerHTML = "";
+
+
+            requests.forEach(
+                function(request, index) {
+
+
+                    const card =
+                        document.createElement("div");
+
+
+                    card.className =
+                        "notice";
+
+
+                    card.innerHTML = `
+
+                        <h3>
+                            📄 ${request.certificateType}
+                        </h3>
+
+                        <p>
+                            <strong>Student Name:</strong>
+                            ${request.studentName}
+                        </p>
+
+                        <p>
+                            <strong>Roll Number:</strong>
+                            ${request.rollNumber}
+                        </p>
+
+                        <p>
+                            <strong>Purpose:</strong>
+                            ${request.purpose}
+                        </p>
+
+                        <p>
+                            <strong>Request Date:</strong>
+                            ${request.requestDate}
+                        </p>
+
+                        <p>
+                            <strong>Status:</strong>
+                            ${request.status}
+                        </p>
+
+                        <button
+                            type="button"
+                            onclick="approveRequest(${index})">
+
+                            ✅ Approve
+
+                        </button>
+
+                        <button
+                            type="button"
+                            onclick="rejectRequest(${index})">
+
+                            ❌ Reject
+
+                        </button>
+
+                    `;
+
+
+                    container.appendChild(card);
+
+                }
+            );
+
+        }
+
+
+
+        // ==========================================
+        // APPROVE REQUEST
+        // ==========================================
+
+        function approveRequest(index) {
+
+            let requests =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereCertificateRequests"
+                    )
+                ) || [];
+
+
+            if (!requests[index]) {
+
+                return;
+
+            }
+
+
+            requests[index].status =
+                "Approved";
+
+
+            localStorage.setItem(
+                "campusSphereCertificateRequests",
+                JSON.stringify(requests)
+            );
+
+
+            alert(
+                "✅ Certificate request approved successfully!"
+            );
+
+
+            displayCertificateRequests();
+
+        }
+
+
+
+        // ==========================================
+        // REJECT REQUEST
+        // ==========================================
+
+        function rejectRequest(index) {
+
+            let requests =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereCertificateRequests"
+                    )
+                ) || [];
+
+
+            if (!requests[index]) {
+
+                return;
+
+            }
+
+
+            const confirmReject =
+                confirm(
+                    "Are you sure you want to reject this request?"
+                );
+
+
+            if (!confirmReject) {
+
+                return;
+
+            }
+
+
+            requests[index].status =
+                "Rejected";
+
+
+            localStorage.setItem(
+                "campusSphereCertificateRequests",
+                JSON.stringify(requests)
+            );
+
+
+            alert(
+                "❌ Certificate request rejected."
+            );
+
+
+            displayCertificateRequests();
+
+        }
+
+
+
+        // ==========================================
+        // LOAD REQUESTS
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                displayCertificateRequests();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

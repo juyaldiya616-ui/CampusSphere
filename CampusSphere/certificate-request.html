@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Certificate Request</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Smart & Secure Digital Campus
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="goBack()">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            📝 Certificate Request
+        </h2>
+
+        <p>
+            Apply online for your required college certificate.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- MAIN CONTAINER -->
+    <!-- ========================= -->
+
+    <main class="certificate-container">
+
+
+        <!-- ========================= -->
+        <!-- REQUEST FORM -->
+        <!-- ========================= -->
+
+        <div class="certificate-box">
+
+            <h2>
+                📄 Apply for Certificate
+            </h2>
+
+
+            <!-- Student Name -->
+
+            <label for="studentName">
+                Student Name
+            </label>
+
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Enter your full name">
+
+
+
+            <!-- Roll Number -->
+
+            <label for="rollNumber">
+                Roll Number
+            </label>
+
+            <input
+                type="text"
+                id="rollNumber"
+                placeholder="Enter your roll number">
+
+
+
+            <!-- Certificate Type -->
+
+            <label for="certificateType">
+                Certificate Type
+            </label>
+
+            <select id="certificateType">
+
+                <option value="">
+                    Select Certificate
+                </option>
+
+                <option value="Bonafide Certificate">
+                    Bonafide Certificate
+                </option>
+
+                <option value="Character Certificate">
+                    Character Certificate
+                </option>
+
+                <option value="Transfer Certificate">
+                    Transfer Certificate
+                </option>
+
+                <option value="Migration Certificate">
+                    Migration Certificate
+                </option>
+
+                <option value="Course Completion Certificate">
+                    Course Completion Certificate
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+
+
+            <!-- Purpose -->
+
+            <label for="purpose">
+                Purpose
+            </label>
+
+            <textarea
+                id="purpose"
+                rows="5"
+                placeholder="Enter the purpose of requesting this certificate"></textarea>
+
+
+
+            <!-- Submit -->
+
+            <button
+                type="button"
+                onclick="submitRequest()">
+
+                📤 Submit Request
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- REQUEST STATUS -->
+        <!-- ========================= -->
+
+        <div class="certificate-box">
+
+            <h2>
+                📋 My Certificate Requests
+            </h2>
+
+
+            <div id="requestContainer">
+
+                <p>
+                    No certificate requests submitted yet.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK BUTTON -->
+    <!-- ========================= -->
+
+    <div style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="goBack()">
+
+            ← Back to Student Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // SUBMIT CERTIFICATE REQUEST
+        // ==========================================
+
+        function submitRequest() {
+
+
+            const studentName =
+                document.getElementById(
+                    "studentName"
+                ).value.trim();
+
+
+            const rollNumber =
+                document.getElementById(
+                    "rollNumber"
+                ).value.trim();
+
+
+            const certificateType =
+                document.getElementById(
+                    "certificateType"
+                ).value;
+
+
+            const purpose =
+                document.getElementById(
+                    "purpose"
+                ).value.trim();
+
+
+
+            // =========================
+            // VALIDATION
+            // =========================
+
+            if (
+                studentName === "" ||
+                rollNumber === "" ||
+                certificateType === "" ||
+                purpose === ""
+            ) {
+
+                alert(
+                    "⚠️ Please fill all the fields."
+                );
+
+                return;
+
+            }
+
+
+
+            // =========================
+            // CREATE REQUEST
+            // =========================
+
+            const request = {
+
+                id: Date.now(),
+
+                studentName:
+                    studentName,
+
+                rollNumber:
+                    rollNumber,
+
+                certificateType:
+                    certificateType,
+
+                purpose:
+                    purpose,
+
+                requestDate:
+                    new Date().toLocaleDateString(),
+
+                status:
+                    "Pending"
+
+            };
+
+
+
+            // =========================
+            // GET OLD REQUESTS
+            // =========================
+
+            let requests =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereCertificateRequests"
+                    )
+                ) || [];
+
+
+
+            // =========================
+            // ADD NEW REQUEST
+            // =========================
+
+            requests.push(request);
+
+
+
+            // =========================
+            // SAVE REQUEST
+            // =========================
+
+            localStorage.setItem(
+                "campusSphereCertificateRequests",
+                JSON.stringify(requests)
+            );
+
+
+
+            // =========================
+            // CLEAR FORM
+            // =========================
+
+            document.getElementById(
+                "studentName"
+            ).value = "";
+
+
+            document.getElementById(
+                "rollNumber"
+            ).value = "";
+
+
+            document.getElementById(
+                "certificateType"
+            ).value = "";
+
+
+            document.getElementById(
+                "purpose"
+            ).value = "";
+
+
+
+            alert(
+                "✅ Certificate request submitted successfully!"
+            );
+
+
+
+            displayRequests();
+
+        }
+
+
+
+        // ==========================================
+        // DISPLAY REQUESTS
+        // ==========================================
+
+        function displayRequests() {
+
+
+            const container =
+                document.getElementById(
+                    "requestContainer"
+                );
+
+
+            const requests =
+                JSON.parse(
+                    localStorage.getItem(
+                        "campusSphereCertificateRequests"
+                    )
+                ) || [];
+
+
+
+            // =========================
+            // NO REQUEST
+            // =========================
+
+            if (requests.length === 0) {
+
+                container.innerHTML =
+                    "<p>No certificate requests submitted yet.</p>";
+
+                return;
+
+            }
+
+
+
+            container.innerHTML = "";
+
+
+
+            // =========================
+            // DISPLAY EACH REQUEST
+            // =========================
+
+            requests.forEach(
+                function(request) {
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "notice";
+
+
+                    card.innerHTML = `
+
+                        <h3>
+                            📄 ${request.certificateType}
+                        </h3>
+
+                        <p>
+                            <strong>Student:</strong>
+                            ${request.studentName}
+                        </p>
+
+                        <p>
+                            <strong>Roll Number:</strong>
+                            ${request.rollNumber}
+                        </p>
+
+                        <p>
+                            <strong>Purpose:</strong>
+                            ${request.purpose}
+                        </p>
+
+                        <p>
+                            <strong>Request Date:</strong>
+                            ${request.requestDate}
+                        </p>
+
+                        <p>
+                            <strong>Status:</strong>
+                            ${request.status}
+                        </p>
+
+                    `;
+
+
+                    container.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        // ==========================================
+        // BACK TO DASHBOARD
+        // ==========================================
+
+        function goBack() {
+
+            window.location.href =
+                "student-dashboard.html";
+
+        }
+
+
+
+        // ==========================================
+        // LOAD REQUESTS
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                displayRequests();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

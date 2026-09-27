@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusSphere - Achievements & Placement Profile</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>CampusSphere</h1>
+
+            <p>
+                Smart & Secure Digital Campus
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            type="button"
+            onclick="window.location.href='dashboard.html'">
+
+            Back
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- WELCOME -->
+    <!-- ========================= -->
+
+    <section class="welcome-section">
+
+        <h2>
+            🏆 Achievements & Placement Profile
+        </h2>
+
+        <p>
+            Manage your achievements, certifications
+            and placement information.
+        </p>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- PROFILE INFORMATION -->
+    <!-- ========================= -->
+
+    <main class="dashboard-container">
+
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                👤
+            </div>
+
+            <h3>
+                Student Information
+            </h3>
+
+            <p>
+                <strong>Name:</strong>
+                <span id="displayName">Not Added</span>
+            </p>
+
+            <p>
+                <strong>Roll No:</strong>
+                <span id="displayRoll">Not Added</span>
+            </p>
+
+            <p>
+                <strong>Course:</strong>
+                <span id="displayCourse">Not Added</span>
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- PLACEMENT PROFILE -->
+    <!-- ========================= -->
+
+    <section class="notice-section">
+
+        <h2>
+            💼 Placement Profile
+        </h2>
+
+
+        <div class="assignment-form">
+
+
+            <label for="studentName">
+                Student Name
+            </label>
+
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Enter your name">
+
+
+            <label for="rollNumber">
+                Roll Number
+            </label>
+
+            <input
+                type="text"
+                id="rollNumber"
+                placeholder="Enter roll number">
+
+
+            <label for="course">
+                Course
+            </label>
+
+            <input
+                type="text"
+                id="course"
+                placeholder="Enter your course">
+
+
+            <label for="skills">
+                Skills
+            </label>
+
+            <textarea
+                id="skills"
+                placeholder="Example: Java, Python, SQL, HTML, CSS"></textarea>
+
+
+            <label for="careerGoal">
+                Career Goal
+            </label>
+
+            <textarea
+                id="careerGoal"
+                placeholder="Enter your career goal"></textarea>
+
+
+            <button
+                type="button"
+                onclick="savePlacementProfile()">
+
+                💾 Save Placement Profile
+
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- ACHIEVEMENT FORM -->
+    <!-- ========================= -->
+
+    <section class="notice-section">
+
+        <h2>
+            🏆 Add Achievement
+        </h2>
+
+
+        <div class="assignment-form">
+
+
+            <label for="achievementTitle">
+                Achievement Title
+            </label>
+
+            <input
+                type="text"
+                id="achievementTitle"
+                placeholder="Example: Coding Competition Winner">
+
+
+            <label for="achievementType">
+                Achievement Type
+            </label>
+
+            <select id="achievementType">
+
+                <option value="">
+                    Select Achievement Type
+                </option>
+
+                <option value="Certificate">
+                    Certificate
+                </option>
+
+                <option value="Competition">
+                    Competition
+                </option>
+
+                <option value="Academic">
+                    Academic
+                </option>
+
+                <option value="Sports">
+                    Sports
+                </option>
+
+                <option value="Workshop">
+                    Workshop
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <label for="achievementDate">
+                Achievement Date
+            </label>
+
+            <input
+                type="date"
+                id="achievementDate">
+
+
+            <label for="achievementDescription">
+                Description
+            </label>
+
+            <textarea
+                id="achievementDescription"
+                placeholder="Enter achievement details"></textarea>
+
+
+            <button
+                type="button"
+                onclick="addAchievement()">
+
+                🏆 Add Achievement
+
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- ACHIEVEMENT LIST -->
+    <!-- ========================= -->
+
+    <section class="notice-section">
+
+        <h2>
+            🏅 My Achievements
+        </h2>
+
+
+        <div id="achievementContainer">
+
+            <p>
+                📭 No achievements added yet.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- BACK BUTTON -->
+    <!-- ========================= -->
+
+    <div style="text-align:center; margin:30px;">
+
+        <button
+            type="button"
+            onclick="window.location.href='dashboard.html'">
+
+            ← Back to Student Dashboard
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // ==========================================
+        // SAVE PLACEMENT PROFILE
+        // ==========================================
+
+        function savePlacementProfile() {
+
+
+            const name =
+                document.getElementById(
+                    "studentName"
+                ).value.trim();
+
+
+            const roll =
+                document.getElementById(
+                    "rollNumber"
+                ).value.trim();
+
+
+            const course =
+                document.getElementById(
+                    "course"
+                ).value.trim();
+
+
+            const skills =
+                document.getElementById(
+                    "skills"
+                ).value.trim();
+
+
+            const careerGoal =
+                document.getElementById(
+                    "careerGoal"
+                ).value.trim();
+
+
+            if (
+                name === "" ||
+                roll === "" ||
+                course === ""
+            ) {
+
+                alert(
+                    "⚠️ Please enter Name, Roll Number and Course."
+                );
+
+                return;
+
+            }
+
+
+            const profile = {
+
+                name: name,
+
+                roll: roll,
+
+                course: course,
+
+                skills: skills,
+
+                careerGoal: careerGoal
+
+            };
+
+
+            localStorage.setItem(
+
+                "campusSpherePlacementProfile",
+
+                JSON.stringify(profile)
+
+            );
+
+
+            displayProfile();
+
+
+            alert(
+                "✅ Placement profile saved successfully!"
+            );
+
+        }
+
+
+
+        // ==========================================
+        // DISPLAY PROFILE
+        // ==========================================
+
+        function displayProfile() {
+
+
+            const profile =
+
+                JSON.parse(
+
+                    localStorage.getItem(
+                        "campusSpherePlacementProfile"
+                    )
+
+                );
+
+
+            if (!profile) {
+
+                return;
+
+            }
+
+
+            document.getElementById(
+                "studentName"
+            ).value = profile.name || "";
+
+
+            document.getElementById(
+                "rollNumber"
+            ).value = profile.roll || "";
+
+
+            document.getElementById(
+                "course"
+            ).value = profile.course || "";
+
+
+            document.getElementById(
+                "skills"
+            ).value = profile.skills || "";
+
+
+            document.getElementById(
+                "careerGoal"
+            ).value = profile.careerGoal || "";
+
+
+            document.getElementById(
+                "displayName"
+            ).innerText =
+                profile.name || "Not Added";
+
+
+            document.getElementById(
+                "displayRoll"
+            ).innerText =
+                profile.roll || "Not Added";
+
+
+            document.getElementById(
+                "displayCourse"
+            ).innerText =
+                profile.course || "Not Added";
+
+        }
+
+
+
+        // ==========================================
+        // ADD ACHIEVEMENT
+        // ==========================================
+
+        function addAchievement() {
+
+
+            const title =
+
+                document.getElementById(
+                    "achievementTitle"
+                ).value.trim();
+
+
+            const type =
+
+                document.getElementById(
+                    "achievementType"
+                ).value;
+
+
+            const date =
+
+                document.getElementById(
+                    "achievementDate"
+                ).value;
+
+
+            const description =
+
+                document.getElementById(
+                    "achievementDescription"
+                ).value.trim();
+
+
+            if (
+                title === "" ||
+                type === "" ||
+                date === "" ||
+                description === ""
+            ) {
+
+                alert(
+                    "⚠️ Please fill all achievement details."
+                );
+
+                return;
+
+            }
+
+
+            const achievement = {
+
+                id: Date.now(),
+
+                title: title,
+
+                type: type,
+
+                date: date,
+
+                description: description
+
+            };
+
+
+            let achievements =
+
+                JSON.parse(
+
+                    localStorage.getItem(
+                        "campusSphereAchievements"
+                    )
+
+                ) || [];
+
+
+            achievements.push(achievement);
+
+
+            localStorage.setItem(
+
+                "campusSphereAchievements",
+
+                JSON.stringify(achievements)
+
+            );
+
+
+            // Clear form
+
+            document.getElementById(
+                "achievementTitle"
+            ).value = "";
+
+
+            document.getElementById(
+                "achievementType"
+            ).value = "";
+
+
+            document.getElementById(
+                "achievementDate"
+            ).value = "";
+
+
+            document.getElementById(
+                "achievementDescription"
+            ).value = "";
+
+
+            displayAchievements();
+
+
+            alert(
+                "🏆 Achievement added successfully!"
+            );
+
+        }
+
+
+
+        // ==========================================
+        // DISPLAY ACHIEVEMENTS
+        // ==========================================
+
+        function displayAchievements() {
+
+
+            const container =
+
+                document.getElementById(
+                    "achievementContainer"
+                );
+
+
+            const achievements =
+
+                JSON.parse(
+
+                    localStorage.getItem(
+                        "campusSphereAchievements"
+                    )
+
+                ) || [];
+
+
+            if (achievements.length === 0) {
+
+                container.innerHTML =
+
+                    "<p>📭 No achievements added yet.</p>";
+
+                return;
+
+            }
+
+
+            container.innerHTML = "";
+
+
+            achievements.forEach(
+
+                function(achievement, index) {
+
+
+                    const card =
+
+                        document.createElement("div");
+
+
+                    card.className =
+                        "notice";
+
+
+                    card.innerHTML = `
+
+                        <h3>
+                            🏆 ${achievement.title}
+                        </h3>
+
+                        <p>
+                            <strong>Type:</strong>
+                            ${achievement.type}
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            ${achievement.date}
+                        </p>
+
+                        <p>
+                            ${achievement.description}
+                        </p>
+
+                        <p>
+                            <strong>Status:</strong>
+                            🟡 Pending Verification
+                        </p>
+
+                        <button
+                            type="button"
+                            onclick="deleteAchievement(${index})">
+
+                            🗑️ Delete Achievement
+
+                        </button>
+
+                    `;
+
+
+                    container.appendChild(card);
+
+                }
+
+            );
+
+        }
+
+
+
+        // ==========================================
+        // DELETE ACHIEVEMENT
+        // ==========================================
+
+        function deleteAchievement(index) {
+
+
+            let achievements =
+
+                JSON.parse(
+
+                    localStorage.getItem(
+                        "campusSphereAchievements"
+                    )
+
+                ) || [];
+
+
+            const confirmDelete =
+
+                confirm(
+                    "Are you sure you want to delete this achievement?"
+                );
+
+
+            if (!confirmDelete) {
+
+                return;
+
+            }
+
+
+            achievements.splice(index, 1);
+
+
+            localStorage.setItem(
+
+                "campusSphereAchievements",
+
+                JSON.stringify(achievements)
+
+            );
+
+
+            displayAchievements();
+
+
+            alert(
+                "🗑️ Achievement deleted successfully!"
+            );
+
+        }
+
+
+
+        // ==========================================
+        // PAGE LOAD
+        // ==========================================
+
+        document.addEventListener(
+
+            "DOMContentLoaded",
+
+            function() {
+
+                displayProfile();
+
+                displayAchievements();
+
+            }
+
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>
